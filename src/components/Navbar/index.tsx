@@ -22,7 +22,7 @@ export default function Navbar() {
 	};
 
 	return (
-		<div className="fixed left-0 right-0 top-0 px-14 py-5 shadow-xl">
+		<div className="fixed left-0 right-0 top-0 z-50 bg-white px-16 py-5 shadow-xl">
 			<div className="flex items-center justify-between">
 				<Image
 					src="/assets/navbar/engetec-logo.svg"

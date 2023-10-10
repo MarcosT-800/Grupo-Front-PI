@@ -2,14 +2,14 @@
 
 import _padStart from 'lodash/padStart';
 
-import CadastroAdmin from '@/components/FormsAdmin/Cadastrar';
+import EdicaoAdmin from '@/components/FormsAdmin/Editar';
 import Navbar from '@/components/Navbar';
 
-export default function CadastrarAdmin() {
+export default function EditarAdmin() {
 	return (
 		<div>
 			<Navbar />
-			<CadastroAdmin />
+			<EdicaoAdmin />
 		</div>
 	);
 }
