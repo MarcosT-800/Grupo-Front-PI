@@ -147,7 +147,7 @@ export default function EdicaoAdmin() {
 					</div>
 					<div className="align-center mt-3.5 flex justify-center">
 						<button
-							className="mb-6 w-1/2 rounded-xl border-none bg-violet-500 p-2 text-center text-base font-medium text-white"
+							className="mb-6 w-1/2 rounded-xl border-none bg-cyan-700 p-2 text-center text-base font-medium text-white"
 							type="submit"
 						>
 							Salvar

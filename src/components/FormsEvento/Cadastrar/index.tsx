@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { FaFile, FaTimes } from 'react-icons/fa';
+
 export default function CadastroEvento() {
 	const checkboxNames = ['online', 'híbrido', 'presencial'];
 	const [checkboxes, setCheckboxes] = useState(checkboxNames.map(() => false));
@@ -15,25 +17,54 @@ export default function CadastroEvento() {
 	};
 
 	const [areas, setAreas] = useState(['']);
+	const [ass, setAss] = useState(['']);
 
-	const handleAddArea = () => {
-		setAreas([...areas, areas[areas.length - 1]]);
+	const handleAddArea = (
+		setArea: React.Dispatch<React.SetStateAction<string[]>>
+	) => {
+		const lastArea =
+			setArea === setAreas ? areas[areas.length - 1] : ass[ass.length - 1];
+
+		if (lastArea.trim() !== '') {
+			setArea((prevAreas) => [...prevAreas, '']);
+		}
 	};
 
-	const handleRemoveArea = (index: any) => {
-		setAreas((prevAreas) => prevAreas.filter((_, i) => i !== index));
+	const handleRemoveArea = (
+		index: number,
+		setArea: React.Dispatch<React.SetStateAction<string[]>>
+	) => {
+		setArea((prevAreas) => prevAreas.filter((_, i) => i !== index));
 	};
 
-	const handleAreaChange = (index: any, value: any) => {
-		const newAreas = [...areas];
+	const handleAreaChange = (
+		index: number,
+		value: string,
+		setArea: React.Dispatch<React.SetStateAction<string[]>>
+	) => {
+		const newAreas = [...(setArea === setAreas ? areas : ass)];
 		newAreas[index] = value;
-		setAreas(newAreas);
+		setArea(newAreas);
+	};
+
+	const [file, setFile] = useState<File | null>(null);
+
+	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const selectedFile = e.target.files && e.target.files[0];
+
+		if (selectedFile) {
+			setFile(selectedFile);
+		}
+	};
+
+	const handleFileDelete = () => {
+		setFile(null);
 	};
 	return (
 		<div className="container mb-6 mt-36 flex justify-center">
 			<div className="w-1/3">
 				<h1 className="text-2xl font-bold text-black">Cadastrar Evento</h1>
-				<form className="mt-10 w-full bg-white">
+				<form className="mt-8 w-full bg-white">
 					<div className="flex flex-col">
 						<div className="mb-6 flex flex-col">
 							<label
@@ -167,7 +198,7 @@ export default function CadastroEvento() {
 								/>
 							</div>
 						</div>
-						<div className="mb-6 flex flex-col">
+						<div className="mb-8 flex flex-col">
 							<label
 								className="mb-2 text-sm font-medium md:text-base"
 								htmlFor="areas"
@@ -184,7 +215,11 @@ export default function CadastroEvento() {
 											name="areas"
 											value={areas[areas.length - 1]}
 											onChange={(e) =>
-												handleAreaChange(areas.length - 1, e.target.value)
+												handleAreaChange(
+													areas.length - 1,
+													e.target.value,
+													setAreas
+												)
 											}
 											placeholder="Áreas do Evento"
 											required
@@ -192,7 +227,7 @@ export default function CadastroEvento() {
 									</div>
 									<div
 										className="ml-3 cursor-pointer rounded-full bg-violet-500 px-2"
-										onClick={handleAddArea}
+										onClick={() => handleAddArea(setAreas)}
 									>
 										<p className="text-xl font-bold text-white">+</p>
 									</div>
@@ -210,7 +245,7 @@ export default function CadastroEvento() {
 													name="areas"
 													value={area}
 													onChange={(e) =>
-														handleAreaChange(index, e.target.value)
+														handleAreaChange(index, e.target.value, setAreas)
 													}
 													readOnly
 													required
@@ -218,9 +253,105 @@ export default function CadastroEvento() {
 											</div>
 											<div
 												className="ml-2 cursor-pointer rounded-full bg-red-500 px-1"
-												onClick={() => handleRemoveArea(index)}
+												onClick={() => handleRemoveArea(index, setAreas)}
 											>
-												<p className="text-xs font-bold text-white">x</p>
+												<FaTimes className="w-2 text-white" />
+											</div>
+										</div>
+									))}
+								</div>
+							</div>
+						</div>
+						<h1 className="mb-6 text-2xl font-bold text-black">
+							Inserir dados para Certificados
+						</h1>
+						<div className="mb-6 flex flex-col">
+							<label
+								className="mb-2 text-sm font-medium md:text-base"
+								htmlFor="name"
+							>
+								Logo do Evento
+							</label>
+
+							<div className="flex w-full items-center rounded-md border-0 bg-gray-200 px-4 py-2.5">
+								<label htmlFor="fileInput" className="cursor-pointer">
+									<FaFile className="mr-2 text-gray-500" />{' '}
+								</label>
+								<input
+									type="file"
+									id="fileInput"
+									name="file"
+									style={{ display: 'none' }}
+									onChange={(e) => handleFileChange(e)}
+									required
+								/>
+								<span className="text-sm md:text-base">
+									{file ? file.name : 'Inserir arquivo'}
+								</span>
+								{file && (
+									<button
+										className="ml-2 cursor-pointer rounded-full bg-red-500 px-1"
+										onClick={handleFileDelete}
+									>
+										<FaTimes className="w-2 text-white" />
+									</button>
+								)}
+							</div>
+						</div>
+						<div className="mb-8 flex flex-col">
+							<label
+								className="mb-2 text-sm font-medium md:text-base"
+								htmlFor="areas"
+							>
+								Áreas do Evento
+							</label>
+
+							<div>
+								<div className="mb-3 flex items-center">
+									<div className="w-full rounded-md border-0 bg-gray-200 px-4 py-2.5">
+										<input
+											className="w-full rounded-md border-0 bg-gray-200 text-sm outline-none md:text-base"
+											type="text"
+											name="areas"
+											value={ass[ass.length - 1]}
+											onChange={(e) =>
+												handleAreaChange(ass.length - 1, e.target.value, setAss)
+											}
+											placeholder="Áreas do Evento"
+											required
+										/>
+									</div>
+									<div
+										className="ml-3 cursor-pointer rounded-full bg-violet-500 px-2"
+										onClick={() => handleAddArea(setAss)}
+									>
+										<p className="text-xl font-bold text-white">+</p>
+									</div>
+								</div>
+								<div className="flex gap-2.5">
+									{ass.map((area, index) => (
+										<div
+											key={index}
+											className="flex items-center rounded-full border-0 bg-gray-200 px-3 py-1.5"
+										>
+											<div className="w-full">
+												<input
+													className="w-full rounded-md border-0 bg-gray-200 text-sm outline-none"
+													type="text"
+													name="areas"
+													value={area}
+													onChange={(e) =>
+														handleAreaChange(index, e.target.value, setAss)
+													}
+													readOnly
+													required
+												/>
+											</div>
+											<div
+												className="ml-2 cursor-pointer rounded-full bg-red-500 px-1"
+												onClick={() => handleRemoveArea(index, setAss)}
+											>
+												<FaTimes className="w-2 text-white" />
 											</div>
 										</div>
 									))}
@@ -230,7 +361,7 @@ export default function CadastroEvento() {
 					</div>
 					<div className="align-center flex justify-center">
 						<button
-							className="mb-6 mt-3 w-1/2 rounded-xl border-none bg-violet-500 p-2 text-center text-base font-medium text-white"
+							className="mb-6 w-1/2 rounded-xl border-none bg-violet-500 p-2 text-center text-base font-medium text-white"
 							type="submit"
 						>
 							Próximo
