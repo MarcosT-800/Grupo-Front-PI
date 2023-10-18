@@ -52,9 +52,9 @@ export default function Navbar() {
 						Login
 					</p>
 					<p
-						onClick={() => handleOptionClick('/cadastro/cadastrar-admin')}
+						onClick={() => handleOptionClick('/evento/criar-evento')}
 						className={`cursor-pointer text-base ${
-							currentOption === '/cadastro/cadastrar-admin'
+							currentOption === '/evento/criar-evento'
 								? 'font-bold text-fuchsia-700'
 								: 'font-medium text-black'
 						}`}
