@@ -4,7 +4,13 @@ import { useState } from 'react';
 
 import { FaFile, FaTimes } from 'react-icons/fa';
 
-export default function CadastroEvento() {
+type CadastroEventoProps = {
+	handleNextClick: () => void;
+};
+
+export default function CadastroEvento({
+	handleNextClick,
+}: CadastroEventoProps) {
 	const checkboxNames = ['online', 'híbrido', 'presencial'];
 	const [checkboxes, setCheckboxes] = useState(checkboxNames.map(() => false));
 
@@ -60,8 +66,13 @@ export default function CadastroEvento() {
 	const handleFileDelete = () => {
 		setFile(null);
 	};
+
+	const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		handleNextClick();
+	};
 	return (
-		<div className="container mb-6 mt-36 flex justify-center">
+		<div className="container mb-6 mt-52 flex justify-center">
 			<div className="w-1/3">
 				<h1 className="text-2xl font-bold text-black">Cadastrar Evento</h1>
 				<form className="mt-8 w-full bg-white">
@@ -359,10 +370,11 @@ export default function CadastroEvento() {
 							</div>
 						</div>
 					</div>
-					<div className="align-center flex justify-center">
+					<div className="flex items-center justify-center">
 						<button
 							className="mb-6 w-1/2 rounded-xl border-none bg-violet-500 p-2 text-center text-base font-medium text-white"
 							type="submit"
+							onClick={handleNextButtonClick}
 						>
 							Próximo
 						</button>

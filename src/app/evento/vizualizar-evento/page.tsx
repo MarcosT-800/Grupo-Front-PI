@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 
-import Navbar from '@/components/Navbar';
-import Tabbar from '@/components/Tabbar';
+import NavbarAutentic from '@/components/Navbar/NavbarAutentic';
+import TabbarAutentic from '@/components/Tabbar/TabbarAutentic';
 
-export default function CriarEvento() {
+export default function VizualizarEvento() {
 	const [currentOption, setCurrentOption] = useState('/');
 
 	const handleOptionClick = (option: string) => {
@@ -13,8 +13,8 @@ export default function CriarEvento() {
 	};
 	return (
 		<div>
-			<Navbar />
-			<Tabbar
+			<NavbarAutentic />
+			<TabbarAutentic
 				currentOption={currentOption}
 				handleOptionClick={handleOptionClick}
 			/>

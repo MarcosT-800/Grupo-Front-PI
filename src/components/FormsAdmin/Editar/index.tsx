@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
-export default function EdicaoAdmin() {
+export default function EditarAdmin() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [password, setPassword] = useState('');
 
@@ -13,10 +13,10 @@ export default function EdicaoAdmin() {
 	};
 
 	return (
-		<div className="container mb-6 mt-36 flex justify-center">
+		<div className="container mb-6 mt-52 flex justify-center">
 			<div className="w-1/3">
 				<h1 className="text-2xl font-bold text-black">Editar Administrador</h1>
-				<form className="mt-10 w-full bg-white">
+				<form className="mt-8 w-full bg-white">
 					<div className="flex flex-col">
 						<div className="mb-6 flex flex-col">
 							<label
@@ -145,7 +145,7 @@ export default function EdicaoAdmin() {
 							</div>
 						</div>
 					</div>
-					<div className="align-center mt-3.5 flex justify-center">
+					<div className="mt-3.5 flex items-center justify-center">
 						<button
 							className="mb-6 w-1/2 rounded-xl border-none bg-cyan-700 p-2 text-center text-base font-medium text-white"
 							type="submit"
