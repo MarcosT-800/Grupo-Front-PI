@@ -1,24 +1,27 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 
+import axios from 'axios';
 import _padStart from 'lodash/padStart';
 
 import CadastroAdmin from '@/components/FormsAdmin/Cadastrar';
 import Navbar from '@/components/Navbar';
-import { Admin, AdminRepository } from '@/lib/repository/admin/index.repository';
+import {
+	Admin,
+	AdminRepository,
+} from '@/lib/repository/admin/index.repository';
+import { publicApi } from '@/services';
 
 const [concats, setContacts] = useState<Admin[]>([]);
 
 useEffect(() => {
-	async function getContacts() {
-		const contacts = await AdminRepository.getAll();
-  
-		setContacts(contacts._embedded.admins);
-	  }
-  
-	  getContacts();
-}, [])
+	publicApi.get('/admins').then((response) => {
+		console.log(response.data);
+		// setContacts(response.data._admins);
 
+	});
+}, []);
 
 export default function CadastrarAdmin() {
 	return (
