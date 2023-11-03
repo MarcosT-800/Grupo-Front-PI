@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 
+import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import Tabbar from '@/components/Tabbar';
 
 export default function Cadastrar() {
-	const [currentOption, setCurrentOption] = useState('/');
+	const [currentOption, setCurrentOption] = useState('cadastrar-user');
 
 	const handleOptionClick = (option: string) => {
 		setCurrentOption(option);
@@ -18,6 +19,7 @@ export default function Cadastrar() {
 				currentOption={currentOption}
 				handleOptionClick={handleOptionClick}
 			/>
+			<Footer />
 		</div>
 	);
 }

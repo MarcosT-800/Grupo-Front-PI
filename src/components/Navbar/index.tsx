@@ -33,7 +33,7 @@ export default function Navbar() {
 		<div className="fixed left-0 right-0 top-0 z-50 bg-white px-16 py-5 shadow-xl">
 			<div className="flex items-center justify-between">
 				<div
-					className="flex items-center rounded-full border-2 px-2 py-1"
+					className="flex items-center rounded-lg border-2 px-2 py-1.5"
 					style={{ borderColor: '#4B00E0' }}
 				>
 					<input
@@ -41,7 +41,7 @@ export default function Navbar() {
 						value={query}
 						onChange={(e) => setQuery(e.target.value)}
 						placeholder="Digite sua pesquisa"
-						className="ml-2 text-base outline-none"
+						className="ml-2 w-60 text-base outline-none"
 					/>
 					<button
 						className="mr-0.5 border-l pl-2 outline-none"
@@ -57,7 +57,7 @@ export default function Navbar() {
 					width={180}
 					height={180}
 				/>
-				<div className="flex items-center gap-6">
+				<div className="flex items-center gap-5">
 					<S.OptionMenu
 						onClick={() => handleOptionClick('/')}
 						className="cursor-pointer text-base"
