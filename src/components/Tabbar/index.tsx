@@ -5,6 +5,7 @@ import { useState } from 'react';
 import CadastroAdmin from '../FormsAdmin/Cadastrar';
 import CadastroEvento from '../FormsEvento/Cadastrar';
 import RegrasEvento from '../FormsRegras/cadastrar/regras-evento';
+import * as S from './styles';
 
 type TabbarProps = {
 	currentOption: string;
@@ -37,100 +38,47 @@ export default function Tabbar({
 	};
 	const renderContent = () => {
 		switch (currentOption) {
-			case 'cadastrar-admin':
+			case 'cadastrar-user':
 				return <CadastroAdmin handleNextClick={goToNextPage} />;
-			case 'cadastrar-evento':
+			case 'cadastrar-convidado':
 				return <CadastroEvento handleNextClick={goToNextPage} />;
-			case 'regras-evento':
+			case 'cadastrar-comissao':
 				return <RegrasEvento handleNextClick={goToNextPage} />;
-			case 'regras-avaliacao':
-				return null;
-			case 'regras-artigos':
-				return null;
-			case 'regras-apresentacao':
-				return null;
-			case 'cadastrar-equipe':
-				return null;
 			default:
 				return null;
 		}
 	};
 	return (
 		<div>
-			<div className="fixed left-0 right-0 top-24 z-40 bg-white px-28 py-5 shadow">
+			<div className="fixed left-0 right-0 top-28 z-40 bg-white px-28 py-5 shadow">
 				<div className="flex flex-wrap items-center justify-center gap-5">
-					<p className="mb-1 text-xl font-semibold">‹</p>
+					<S.OptionMenu
+						onClick={() => handleOptionClick('cadastrar-user')}
+						className="flex-shrink-0 cursor-pointer text-sm"
+						selected={currentOption === 'cadastrar-user'}
+					>
+						Cadastrar Usuário
+					</S.OptionMenu>
 					<p
-						onClick={() => handleOptionClick('cadastrar-admin')}
+						onClick={() => handleOptionClick('cadastrar-convidado')}
 						className={`flex-shrink-0 cursor-pointer text-sm ${
-							currentOption === 'cadastrar-admin'
+							currentOption === 'cadastrar-convidado'
 								? 'font-bold text-fuchsia-700'
 								: 'font-medium text-gray-400'
 						}`}
 					>
-						Cadastro de Administador
+						Cadastrar Convidado
 					</p>
 					<p
-						onClick={() => handleOptionClick('cadastrar-evento')}
+						onClick={() => handleOptionClick('cadastrar-comissao')}
 						className={`flex-shrink-0 cursor-pointer text-sm ${
-							currentOption === 'cadastrar-evento'
+							currentOption === 'cadastrar-comissao'
 								? 'font-bold text-fuchsia-700'
 								: 'font-medium text-gray-400'
 						}`}
 					>
-						Cadastro de Evento
+						Cadastrar Comissão
 					</p>
-					<p
-						onClick={() => handleOptionClick('regras-evento')}
-						className={`flex-shrink-0 cursor-pointer text-sm ${
-							currentOption === 'regras-evento'
-								? 'font-bold text-fuchsia-700'
-								: 'font-medium text-gray-400'
-						}`}
-					>
-						Regras para Evento
-					</p>
-					<p
-						onClick={() => handleOptionClick('regras-avaliacao')}
-						className={`flex-shrink-0 cursor-pointer text-sm ${
-							currentOption === 'regras-avaliacao'
-								? 'font-bold text-fuchsia-700'
-								: 'font-medium text-gray-400'
-						}`}
-					>
-						Regras para Avaliação
-					</p>
-					<p
-						onClick={() => handleOptionClick('regras-artigos')}
-						className={`flex-shrink-0 cursor-pointer text-sm ${
-							currentOption === 'regras-artigos'
-								? 'font-bold text-fuchsia-700'
-								: 'font-medium text-gray-400'
-						}`}
-					>
-						Regras para Artigos
-					</p>
-					<p
-						onClick={() => handleOptionClick('regras-apresentacao')}
-						className={`flex-shrink-0 cursor-pointer text-sm ${
-							currentOption === 'regras-apresentacao'
-								? 'font-bold text-fuchsia-700'
-								: 'font-medium text-gray-400'
-						}`}
-					>
-						Regras para Apresentação
-					</p>
-					<p
-						onClick={() => handleOptionClick('cadastrar-equipe')}
-						className={`flex-shrink-0 cursor-pointer text-sm ${
-							currentOption === 'cadastrar-equipe'
-								? 'font-bold text-fuchsia-700'
-								: 'font-medium text-gray-400'
-						}`}
-					>
-						Cadastrar Equipe
-					</p>
-					<p className="mb-1 text-xl font-semibold">›</p>
 				</div>
 			</div>
 			{renderContent()}

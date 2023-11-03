@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Tabbar from '@/components/Tabbar';
 
-export default function CriarEvento() {
+export default function Cadastrar() {
 	const [currentOption, setCurrentOption] = useState('/');
 
 	const handleOptionClick = (option: string) => {
