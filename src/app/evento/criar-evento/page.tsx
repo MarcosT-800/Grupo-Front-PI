@@ -7,7 +7,7 @@ import NavbarAuthenticated from '@/components/Navbar/NavbarAuthenticated';
 import TabbarAuthenticated from '@/components/Tabbar/TabbarAuthenticated';
 
 export default function Evento() {
-	const [currentOption, setCurrentOption] = useState('cadastrar-user');
+	const [currentOption, setCurrentOption] = useState('menu');
 
 	const handleOptionClick = (option: string) => {
 		setCurrentOption(option);

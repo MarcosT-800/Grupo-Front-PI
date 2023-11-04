@@ -15,11 +15,11 @@ export default function Tabbar({
 }: TabbarProps) {
 	const renderContent = () => {
 		switch (currentOption) {
-			case 'cadastrar-user':
+			case 'menu':
 				return;
-			case 'cadastrar-convidado':
+			case 'cadastrar-evento':
 				return;
-			case 'cadastrar-comissao':
+			case '':
 				return;
 			default:
 				return null;
@@ -31,35 +31,63 @@ export default function Tabbar({
 				<div className="flex flex-wrap items-center justify-center gap-5">
 					<div className="flex items-center gap-2">
 						<S.OptionMenu
-							onClick={() => handleOptionClick('cadastrar-user')}
+							onClick={() => handleOptionClick('menu')}
 							className="flex-shrink-0 cursor-pointer text-sm"
-							selected={currentOption === 'cadastrar-user'}
+							selected={currentOption === 'menu'}
 						>
-							Cadastrar Usuário
+							Menu
 						</S.OptionMenu>
-						<S.IconUser selected={currentOption === 'cadastrar-user'} />
+						<S.IconMenu selected={currentOption === 'menu'} />
 					</div>
 					<div className="flex items-center gap-2">
 						<S.OptionMenu
-							onClick={() => handleOptionClick('cadastrar-convidado')}
+							onClick={() => handleOptionClick('criar-evento')}
 							className="flex-shrink-0 cursor-pointer text-sm"
-							selected={currentOption === 'cadastrar-convidado'}
+							selected={currentOption === 'criar-evento'}
 						>
-							Cadastrar Convidado
+							Criar Evento
 						</S.OptionMenu>
-						<S.IconInvite selected={currentOption === 'cadastrar-convidado'} />
+						<S.IconEvent selected={currentOption === 'criar-evento'} />
 					</div>
 					<div className="flex items-center gap-2">
 						<S.OptionMenu
-							onClick={() => handleOptionClick('cadastrar-comissao')}
+							onClick={() => handleOptionClick('data-local')}
 							className="flex-shrink-0 cursor-pointer text-sm"
-							selected={currentOption === 'cadastrar-comissao'}
+							selected={currentOption === 'data-local'}
 						>
-							Cadastrar Comissão
+							Data e Local
 						</S.OptionMenu>
-						<S.IconComission
-							selected={currentOption === 'cadastrar-comissao'}
-						/>
+						<S.IconDate selected={currentOption === 'data-local'} />
+					</div>
+					<div className="flex items-center gap-2">
+						<S.OptionMenu
+							onClick={() => handleOptionClick('arquivos')}
+							className="flex-shrink-0 cursor-pointer text-sm"
+							selected={currentOption === 'arquivos'}
+						>
+							Arquivos
+						</S.OptionMenu>
+						<S.IconFiles selected={currentOption === 'arquivos'} />
+					</div>
+					<div className="flex items-center gap-2">
+						<S.OptionMenu
+							onClick={() => handleOptionClick('atividades')}
+							className="flex-shrink-0 cursor-pointer text-sm"
+							selected={currentOption === 'atividades'}
+						>
+							Atividades
+						</S.OptionMenu>
+						<S.IconActivities selected={currentOption === 'atividades'} />
+					</div>
+					<div className="flex items-center gap-2">
+						<S.OptionMenu
+							onClick={() => handleOptionClick('usuarios')}
+							className="flex-shrink-0 cursor-pointer text-sm"
+							selected={currentOption === 'usuarios'}
+						>
+							Usuários
+						</S.OptionMenu>
+						<S.IconUsers selected={currentOption === 'usuarios'} />
 					</div>
 				</div>
 			</div>
