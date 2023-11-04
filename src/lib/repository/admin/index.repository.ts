@@ -1,9 +1,13 @@
-import { AxiosInstance } from "axios";
-import axiosInstance from "../../http/client/axios.client";
 
 export type Person = {}
 
 export type User = {
+    username: string,
+    user_password: string,
+    atuation: string,
+    admin: string
+}
+export type UserResponse = {
     username: string,
     user_password: string,
     atuation: string,
@@ -19,6 +23,13 @@ export type User = {
 }
 
 export type Admin = {
+    nome: string;
+    cargo: string,
+    instituicao: string,
+    cpf: string,
+}
+
+export type AdminResponse = {
     nome: string;
     cargo: string,
     instituicao: string,
@@ -39,22 +50,17 @@ export type Admin = {
     }
 }
 
-type IAdminRepository = {
-    getAll: () => Promise<Admin[]>;
-    getById: (id: number) => Promise<Admin>;
-    create: (admin: Admin) => Promise<Admin>;
-    putAdmin: (id: number, admin: Admin) => Promise<Admin>;
-    putchAdmin: (id: number, admin: Admin) => Promise<Admin>;
+export interface IAdminRepository {
+    getAll: () => Promise<Admin[] | null>;
+    getById: (id: number) => Promise<Admin | null>;
+    create: (admin: Admin) => Promise<Admin | null>;
+    putAdmin: (id: number, admin: Admin) => Promise<Admin | null>;
+    patchAdmin: (id: number, admin: Admin) => Promise<Admin | null>;
 };
-
-export function AdminRepository(axios: AxiosInstance): IAdminRepository {
-    return {
-        getAll: async () => (await axios.get("/admin")).data,
-        getById: async (id: number) => (await axios.get(`/admin/${id}`)).data,
-        create: async (admin: Admin) => (await axios.post("/admin", admin)).data,
-        putAdmin: async (id: number, admin: Admin) => (await axios.put(`/admin/${id}`, admin)).data,
-        putchAdmin: async (id, admin) => (await axios.put(`/admin/${id}`, admin)).data
-    };
-}
-
-export default AdminRepository(axiosInstance);
+export interface IUserRepository {
+    getAll: () => Promise<User[] | null>;
+    getById: (id: number) => Promise<User | null>;
+    create: (user: User) => Promise<User | null>;
+    putUser: (id: number, user: User) => Promise<User | null>;
+    patchUser: (id: number, user: User) => Promise<User | null>;
+};
