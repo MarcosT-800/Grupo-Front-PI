@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
 import { AiOutlineStar } from 'react-icons/ai';
-import { BiBrain } from 'react-icons/bi';
-import { BsCalendarDate } from 'react-icons/bs';
+import { BiBrain, BiSolidSchool } from 'react-icons/bi';
 import { FiUsers } from 'react-icons/fi';
 import { ImFilesEmpty } from 'react-icons/im';
+import { MdDateRange } from 'react-icons/md';
 import { TfiMenuAlt } from 'react-icons/tfi';
+import { TfiTimer } from 'react-icons/tfi';
 
 type TabbarProps = {
 	selected: boolean;
@@ -21,7 +22,7 @@ export const IconMenu = styled(TfiMenuAlt)<TabbarProps>`
 export const IconEvent = styled(AiOutlineStar)<TabbarProps>`
 	color: ${(props) => (props.selected ? '#ef0037' : '#9f9f9f')};
 `;
-export const IconDate = styled(BsCalendarDate)<TabbarProps>`
+export const IconDate = styled(MdDateRange)<TabbarProps>`
 	color: ${(props) => (props.selected ? '#ef0037' : '#9f9f9f')};
 `;
 export const IconFiles = styled(ImFilesEmpty)<TabbarProps>`
@@ -31,5 +32,11 @@ export const IconActivities = styled(BiBrain)<TabbarProps>`
 	color: ${(props) => (props.selected ? '#ef0037' : '#9f9f9f')};
 `;
 export const IconUsers = styled(FiUsers)<TabbarProps>`
+	color: ${(props) => (props.selected ? '#ef0037' : '#9f9f9f')};
+`;
+export const IconClasses = styled(BiSolidSchool)<TabbarProps>`
+	color: ${(props) => (props.selected ? '#ef0037' : '#9f9f9f')};
+`;
+export const IconSection = styled(TfiTimer)<TabbarProps>`
 	color: ${(props) => (props.selected ? '#ef0037' : '#9f9f9f')};
 `;

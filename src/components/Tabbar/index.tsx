@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import CadastroComissao from '../FormsComissao/cadastrar';
 import CadastroConvidado from '../FormsConvidado/cadastrar';
-import CadastroAdmin from '../FormsUser/cadastrar';
+import CadastroUser from '../FormsUser/cadastrar';
 import * as S from './styles';
 
 type TabbarProps = {
@@ -19,7 +19,7 @@ export default function Tabbar({
 	const renderContent = () => {
 		switch (currentOption) {
 			case 'cadastrar-user':
-				return <CadastroAdmin />;
+				return <CadastroUser />;
 			case 'cadastrar-convidado':
 				return <CadastroConvidado />;
 			case 'cadastrar-comissao':

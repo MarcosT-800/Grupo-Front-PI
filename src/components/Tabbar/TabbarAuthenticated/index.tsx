@@ -2,6 +2,10 @@
 
 import { useState } from 'react';
 
+import CriarEvento from '@/components/Forms-CriarEvento/cadastrar';
+import DataLocal from '@/components/Forms-DataLocal/cadastrar';
+import Menu from '@/components/Menu';
+
 import * as S from './styles';
 
 type TabbarProps = {
@@ -16,10 +20,26 @@ export default function Tabbar({
 	const renderContent = () => {
 		switch (currentOption) {
 			case 'menu':
+				return <Menu />;
+			case 'criar-evento':
+				return (
+					<CriarEvento
+						handleNextClick={() => handleOptionClick('data-local')}
+					/>
+				);
+			case 'data-local':
+				return (
+					<DataLocal handleNextClick={() => handleOptionClick('arquivos')} />
+				);
+			case 'arquivos':
 				return;
-			case 'cadastrar-evento':
+			case 'atividades':
 				return;
-			case '':
+			case 'usuarios':
+				return;
+			case 'salas':
+				return;
+			case 'sessoes':
 				return;
 			default:
 				return null;
@@ -88,6 +108,26 @@ export default function Tabbar({
 							Usuários
 						</S.OptionMenu>
 						<S.IconUsers selected={currentOption === 'usuarios'} />
+					</div>
+					<div className="flex items-center gap-2">
+						<S.OptionMenu
+							onClick={() => handleOptionClick('salas')}
+							className="flex-shrink-0 cursor-pointer text-sm"
+							selected={currentOption === 'salas'}
+						>
+							Salas
+						</S.OptionMenu>
+						<S.IconClasses selected={currentOption === 'salas'} />
+					</div>
+					<div className="flex items-center gap-2">
+						<S.OptionMenu
+							onClick={() => handleOptionClick('sessoes')}
+							className="flex-shrink-0 cursor-pointer text-sm"
+							selected={currentOption === 'sessoes'}
+						>
+							Sessões
+						</S.OptionMenu>
+						<S.IconSection selected={currentOption === 'sessoes'} />
 					</div>
 				</div>
 			</div>

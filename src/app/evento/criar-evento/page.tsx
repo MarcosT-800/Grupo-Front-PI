@@ -7,7 +7,7 @@ import NavbarAuthenticated from '@/components/Navbar/NavbarAuthenticated';
 import TabbarAuthenticated from '@/components/Tabbar/TabbarAuthenticated';
 
 export default function Evento() {
-	const [currentOption, setCurrentOption] = useState('menu');
+	const [currentOption, setCurrentOption] = useState('criar-evento');
 
 	const handleOptionClick = (option: string) => {
 		setCurrentOption(option);

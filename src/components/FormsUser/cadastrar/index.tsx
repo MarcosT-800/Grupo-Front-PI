@@ -8,7 +8,7 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 	handleNextClick: () => void;
 };*/
 
-export default function CadastroAdmin() {
+export default function CadastroUser() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [password, setPassword] = useState('');
 	const [confirmpasswordVisible, setConfirmpasswordVisible] = useState(false);
@@ -210,7 +210,7 @@ export default function CadastroAdmin() {
 					</div>
 					<div className="flex items-center justify-center gap-5">
 						<button
-							className="mb-6 w-1/5 rounded-xl border-none bg-violet-500 p-2 text-center text-base font-medium text-white"
+							className="mb-6 w-1/5 rounded-xl border-none p-2 text-center text-base font-medium text-white"
 							type="submit"
 							style={{ backgroundColor: '#8A8A8A' }}
 						>
