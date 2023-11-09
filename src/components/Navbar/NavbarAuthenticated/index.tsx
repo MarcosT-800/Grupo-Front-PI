@@ -9,9 +9,9 @@ import { BiSearch } from 'react-icons/bi';
 
 import * as S from './styles';
 
-export default function Navbar() {
+export default function NavbarAuthenticated() {
 	const router = useRouter();
-	const [currentOption, setCurrentOption] = useState('/cadastrar');
+	const [currentOption, setCurrentOption] = useState('/evento/criar-evento');
 	const [query, setQuery] = useState('');
 
 	useEffect(() => {
@@ -32,52 +32,47 @@ export default function Navbar() {
 	return (
 		<div className="fixed left-0 right-0 top-0 z-50 bg-white px-16 py-5 shadow-xl">
 			<div className="flex items-center justify-between">
-				<div
-					className="flex items-center rounded-lg border-2 px-2 py-1.5"
-					style={{ borderColor: '#4B00E0' }}
-				>
-					<input
-						type="text"
-						value={query}
-						onChange={(e) => setQuery(e.target.value)}
-						placeholder="Digite sua pesquisa"
-						className="ml-2 w-60 text-base outline-none"
-					/>
-					<button
-						className="mr-0.5 border-l pl-2 outline-none"
-						style={{ borderLeftColor: '#4B00E0', color: '#4B00E0' }}
-						type="submit"
-					>
-						<BiSearch />
-					</button>
-				</div>
 				<Image
 					src="/assets/navbar/logo-engetec.svg"
 					alt="logo engetec"
 					width={180}
 					height={180}
 				/>
-				<div className="flex items-center gap-5">
+				<div className="flex items-center gap-4">
 					<S.OptionMenu
-						onClick={() => handleOptionClick('/')}
+						onClick={() => handleOptionClick('/home')}
 						className="cursor-pointer text-base"
-						selected={currentOption === '/'}
+						selected={currentOption === '/home'}
 					>
 						Página Inicial
 					</S.OptionMenu>
 					<S.OptionMenu
-						onClick={() => handleOptionClick('/login')}
+						onClick={() => handleOptionClick('/evento/meus-eventos')}
 						className="cursor-pointer text-base"
-						selected={currentOption === '/login'}
+						selected={currentOption === '/evento/meus-eventos'}
 					>
-						Login
+						Meus Eventos
 					</S.OptionMenu>
 					<S.OptionMenu
-						onClick={() => handleOptionClick('/cadastrar')}
+						onClick={() => handleOptionClick('/evento/criar-evento')}
 						className="cursor-pointer text-base"
-						selected={currentOption === '/cadastrar'}
+						selected={currentOption === '/evento/criar-evento'}
 					>
-						Cadastrar
+						Criar Evento
+					</S.OptionMenu>
+					<S.OptionMenu
+						onClick={() => handleOptionClick('/artigos')}
+						className="cursor-pointer text-base"
+						selected={currentOption === '/artigos'}
+					>
+						Artigos
+					</S.OptionMenu>
+					<S.OptionMenu
+						onClick={() => handleOptionClick('/certificados')}
+						className="cursor-pointer text-base"
+						selected={currentOption === '/certificados'}
+					>
+						Certificados
 					</S.OptionMenu>
 					<S.OptionMenu
 						onClick={() => handleOptionClick('/suporte')}

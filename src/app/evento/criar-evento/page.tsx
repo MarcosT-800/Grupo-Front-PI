@@ -1,9 +1,25 @@
-import Navbar from '@/components/Navbar';
+'use client';
 
-export default async function CriarEvento() {
+import { useState } from 'react';
+
+import Footer from '@/components/Footer';
+import NavbarAuthenticated from '@/components/Navbar/NavbarAuthenticated';
+import TabbarAuthenticated from '@/components/Tabbar/TabbarAuthenticated';
+
+export default function Evento() {
+	const [currentOption, setCurrentOption] = useState('criar-evento');
+
+	const handleOptionClick = (option: string) => {
+		setCurrentOption(option);
+	};
 	return (
 		<div>
-			<Navbar />
+			<NavbarAuthenticated />
+			<TabbarAuthenticated
+				currentOption={currentOption}
+				handleOptionClick={handleOptionClick}
+			/>
+			<Footer />
 		</div>
 	);
 }

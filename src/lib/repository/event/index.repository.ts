@@ -1,48 +1,30 @@
 
 export type Event = {
-    formato: string,
-    nome: string,
-    descricao: string,
-    local: string,
-    dataInicio: Date,
-    dataFim: Date,
-}
-
-export type EventResponse = {
-    formato: string,
-    nome: string,
-    descricao: string,
-    local: string,
-    dataInicio: Date,
-    dataFim: Date,
-    _links: {
-        self: {
-            href: string
-        },
-        admin: {
-            href: string
-        },
-        rule: {
-            href: string
-        }
-    }
-}
-
-export type Rule = {
-    beginDateInsPar: string,
-    finalDateInsPar: string,
-    beginDateSubArt: string,
-    finalDateSubArt: string,
-    beginDateAva: string,
-    finalDateAva: string,
-    beginDateApre: string,
-    finalDateApre: string,
+    id?: string;
+    emailEvento: string;
+    nomeEvento: string;
+    descricao: string;
+    tipo: string;
+    assuntoPrincipal: string;
+    local?: string;
+    dataInicio?: string;
+    dataFinal?: string;
+    horarioInicio?: string;
+    horarioFim?: string;
+    privado: boolean;
+    anais: boolean;
+    certificados: boolean;
+    logo?: string | null;
+    periodo: string;
+    createdAt?: Date;    
+    comissaoId: string;
+    cep?: string;
 }
 
 export interface IEventRepository {
-    getAll: () => Promise<Event[] | null>;
-    getById: (id: number) => Promise<Event | null>;
-    create: (event: Event) => Promise<Event | null>;
-    putEvent: (id: number, event: Event) => Promise<Event | null>;
-    patchEvent: (id: number, event: Event) => Promise<Event | null>;
+    create(event: Event): Promise<Event>;
+    read(): Promise<Event[]>;
+    readEvent(id: string): Promise<Event | null>;
+    update(event: Event): Promise<Event>;
+    delete(id: string): Promise<Event>;
 };

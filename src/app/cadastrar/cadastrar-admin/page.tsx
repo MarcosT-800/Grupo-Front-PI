@@ -4,15 +4,12 @@ import { useEffect, useState } from 'react';
 
 import _padStart from 'lodash/padStart';
 
-import CadastroAdmin from '@/components/FormsAdmin/Cadastrar';
+import CadastroAdmin from '@/components/FormsComissao/cadastrar/';
 import Navbar from '@/components/Navbar';
-import {
-	Admin,
-} from '@/lib/repository/admin/index.repository';
 import { publicApi } from '@/services';
 
 export default function CadastrarAdmin() {
-	const [concats, setContacts] = useState<Admin[]>([]);
+	// const [concats, setContacts] = useState<Admin[]>([]);
 
 	console.log('cadastrar admin index file', process.env.NEXT_PUBLIC_API_URL);
 
@@ -30,7 +27,7 @@ export default function CadastrarAdmin() {
 				})
 				.then((response) => {
 					console.log(response.data._embedded.admins);
-					setContacts(response.data._embedded.admins);
+					// setContacts(response.data._embedded.admins);
 				})
 				.catch((error) => {
 					console.log(error);
