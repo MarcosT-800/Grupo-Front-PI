@@ -226,16 +226,16 @@ export default function DataLocal({ handleNextClick }: CriarEventoProps) {
 							</div>
 						</div>
 					</div>
-					<div className="flex items-center justify-center gap-5">
+					<div className="flex items-center justify-center gap-6">
 						<button
-							className="mb-6 w-1/5 rounded-xl border-none p-2 text-center text-base font-medium text-white"
+							className="mb-6 w-56 rounded-xl border-none p-2 text-center text-base font-medium text-white"
 							style={{ backgroundColor: '#8A8A8A' }}
 							type="submit"
 						>
 							Voltar
 						</button>
 						<button
-							className="mb-6 w-1/5 rounded-xl border-none p-2 text-center text-base font-medium text-white"
+							className="mb-6 w-56 rounded-xl border-none p-2 text-center text-base font-medium text-white"
 							style={{ backgroundColor: '#EF0037' }}
 							type="submit"
 							onClick={handleNextButtonClick}

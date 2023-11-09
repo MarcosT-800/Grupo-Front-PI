@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import CriarEvento from '@/components/Forms-CriarEvento/cadastrar';
 import DataLocal from '@/components/Forms-DataLocal/cadastrar';
+import VisualizarSala from '@/components/Forms-Salas/cadastrar';
 import Menu from '@/components/Menu';
 
 import * as S from './styles';
@@ -38,7 +39,9 @@ export default function Tabbar({
 			case 'usuarios':
 				return;
 			case 'salas':
-				return;
+				return (
+					<VisualizarSala handleNextClick={() => handleOptionClick('salas')} />
+				);
 			case 'sessoes':
 				return;
 			default:
