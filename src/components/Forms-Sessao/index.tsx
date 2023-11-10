@@ -1,15 +1,8 @@
 'use client';
 
-type CriarEventoProps = {
-	handleNextClick: () => void;
-};
+import FiltroBusca from '../Filtro-Busca';
 
-export default function Sessao({ handleNextClick }: CriarEventoProps) {
-	const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-		handleNextClick();
-	};
-
+export default function Sessao() {
 	return (
 		<div className="container mb-6 mt-52 flex flex-col items-center">
 			<div className="w-1/2">
@@ -81,19 +74,21 @@ export default function Sessao({ handleNextClick }: CriarEventoProps) {
                     rounded-xl border-none p-2 text-center text-base font-medium text-white"
 					style={{ backgroundColor: '#EF0037' }}
 					type="submit"
-					onClick={handleNextButtonClick}
 				>
 					Finalizar
 				</button>
 			</div>
 
 			<div className="mt-14 flex w-2/3 flex-col">
-				<h1 className="text-start text-2xl font-bold text-black">
-					Gerenciamento das sessões
-				</h1>
+				<div className="flex justify-between">
+					<h1 className="text-start text-2xl font-bold text-black">
+						Gerenciamento das sessões
+					</h1>
+					<FiltroBusca />
+				</div>
 			</div>
 
-			<table className="mt-12 w-2/3 text-center">
+			<table className="mt-8 w-2/3 text-center">
 				<thead style={{ backgroundColor: '#E4E4E4' }}>
 					<tr className="h-14">
 						<th scope="col">Sessão</th>

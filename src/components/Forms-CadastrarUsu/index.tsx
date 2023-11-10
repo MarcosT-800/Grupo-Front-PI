@@ -1,5 +1,7 @@
 'use client';
 
+import FiltroBusca from '../Filtro-Busca';
+
 type CriarEventoProps = {
 	handleNextClick: () => void;
 };
@@ -84,12 +86,15 @@ export default function CadastrarUsuario({
 			</div>
 
 			<div className="mt-14 flex w-1/2 flex-col">
-				<h1 className="text-start text-2xl font-bold text-black">
-					Gerenciamento dos usuários
-				</h1>
+				<div className="flex justify-between">
+					<h1 className="text-start text-2xl font-bold text-black">
+						Gerenciamento dos usuários
+					</h1>
+					<FiltroBusca />
+				</div>
 			</div>
 
-			<table className="mt-12 w-1/2 text-center">
+			<table className="mt-8 w-1/2 text-center">
 				<thead style={{ backgroundColor: '#E4E4E4' }}>
 					<tr className="h-14">
 						<th scope="col">Função</th>

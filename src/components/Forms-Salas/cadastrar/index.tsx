@@ -1,10 +1,47 @@
 'use client';
 
+import { useState } from 'react';
+
 type CriarEventoProps = {
 	handleNextClick: () => void;
 };
 
 export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
+	const [salas, setSalas] = useState(
+		[] as {
+			tipo: string;
+			limite_pessoas: string;
+			andar: string;
+			num: string;
+			tema: string;
+		}[]
+	);
+	const [formData, setFormData] = useState({
+		tipo: '',
+		limite_pessoas: '',
+		andar: '',
+		num: '',
+		tema: '',
+	});
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFormData((prevData) => ({
+			...prevData,
+			[name]: value,
+		}));
+	};
+	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setSalas((prevSalas) => [...prevSalas, formData]);
+		setFormData({
+			tipo: '',
+			limite_pessoas: '',
+			andar: '',
+			num: '',
+			tema: '',
+		});
+	};
+
 	const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		handleNextClick();
@@ -24,9 +61,9 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 				</h2>
 			</div>
 
-			<form className="mt-8 flex flex-col bg-white">
+			<form className="mt-8 flex flex-col bg-white" onSubmit={handleFormSubmit}>
 				<div className="mb-5 flex flex-row gap-6">
-					<div className="mb-5 flex flex-col">
+					<div className="flex flex-col">
 						<label className="mb-2 text-sm font-medium " htmlFor="tipo">
 							Tipo:
 						</label>
@@ -37,12 +74,16 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 								name="tipo"
 								id="tipo"
 								placeholder="Digite o tipo"
+								onChange={handleInputChange}
 								required
 							/>
 						</div>
 					</div>
-					<div className="mb-5 flex flex-col">
-						<label className="mb-2 text-sm font-medium" htmlFor="limite">
+					<div className="flex flex-col">
+						<label
+							className="mb-2 text-sm font-medium"
+							htmlFor="limite_pessoas"
+						>
 							Limite de Pessoas:
 						</label>
 						<div className="rounded-md border border-gray-300 bg-white px-4 py-2">
@@ -52,14 +93,14 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 								name="limite_pessoas"
 								id="limite_pessoas"
 								placeholder="Digite o limite de pessoas"
+								onChange={handleInputChange}
 								required
 							/>
 						</div>
 					</div>
 				</div>
-
 				<div className="mb-5 flex flex-row gap-6">
-					<div className="mb flex flex-col">
+					<div className="flex flex-col">
 						<label className="mb-2 text-sm font-medium" htmlFor="andar">
 							Andar:
 						</label>
@@ -70,12 +111,12 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 								name="andar"
 								id="andar"
 								placeholder="Digite o Andar"
+								onChange={handleInputChange}
 								required
 							/>
 						</div>
 					</div>
-
-					<div className="mb flex flex-col">
+					<div className="flex flex-col">
 						<label className="mb-2 text-sm font-medium" htmlFor="num">
 							Número:
 						</label>
@@ -86,6 +127,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 								name="num"
 								id="num"
 								placeholder="Digite o Número"
+								onChange={handleInputChange}
 								required
 							/>
 						</div>
@@ -93,7 +135,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 				</div>
 
 				<div className="mb-5 flex flex-row gap-6">
-					<div className="mb flex flex-col">
+					<div className="lex flex-col">
 						<label className="mb-2 text-sm font-medium" htmlFor="tema">
 							Tema:
 						</label>
@@ -104,6 +146,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 								name="tema"
 								id="tema"
 								placeholder="Digite o Tema"
+								onChange={handleInputChange}
 								required
 							/>
 						</div>
@@ -146,39 +189,25 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 				<thead style={{ backgroundColor: '#E4E4E4' }}>
 					<tr className="h-14">
 						<th scope="col">Tipo</th>
-						<th scope="col" className="">
-							Andar
-						</th>
-						<th scope="col" className="">
-							Número
-						</th>
-						<th scope="col" className="">
-							Limite de Pessoas
-						</th>
-						<th scope="col" className="">
-							Tema
-						</th>
+						<th scope="col">Andar</th>
+						<th scope="col">Número</th>
+						<th scope="col">Limite de Pessoas</th>
+						<th scope="col">Tema</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr className="h-14">
-						<td scope="row" className="">
-							Palestra
-						</td>
-						<td className="">4</td>
-						<td className="">2344</td>
-						<td className="">67</td>
-						<td className="">Plástico</td>
-					</tr>
-					<tr className="h-14" style={{ backgroundColor: '#E4E4E4' }}>
-						<td scope="row" className="">
-							aaaa
-						</td>
-						<td className="">7</td>
-						<td className="">20</td>
-						<td className="">74</td>
-						<td className="">Inteligência</td>
-					</tr>
+					{salas.map((sala, index) => (
+						<tr
+							key={index}
+							className={index % 2 === 0 ? 'h-14 bg-white' : 'h-14 bg-gray-200'}
+						>
+							<td>{sala.tipo}</td>
+							<td>{sala.andar}</td>
+							<td>{sala.num}</td>
+							<td>{sala.limite_pessoas}</td>
+							<td>{sala.tema}</td>
+						</tr>
+					))}
 				</tbody>
 			</table>
 		</div>

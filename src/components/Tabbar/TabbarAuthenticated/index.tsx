@@ -41,15 +41,17 @@ export default function Tabbar({
 			case 'usuarios':
 				return (
 					<CadastrarUsuario
-						handleNextClick={() => handleOptionClick('usuarios')}
+						handleNextClick={() => handleOptionClick('salas')}
 					/>
 				);
 			case 'salas':
 				return (
-					<VisualizarSala handleNextClick={() => handleOptionClick('salas')} />
+					<VisualizarSala
+						handleNextClick={() => handleOptionClick('sessoes')}
+					/>
 				);
 			case 'sessoes':
-				return <Sessao handleNextClick={() => handleOptionClick('sessoes')} />;
+				return <Sessao />;
 			default:
 				return null;
 		}
