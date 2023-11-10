@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 
+import CadastrarUsuario from '@/components/Forms-CadastrarUsu';
 import CriarEvento from '@/components/Forms-CriarEvento/cadastrar';
 import DataLocal from '@/components/Forms-DataLocal/cadastrar';
+import VisualizarSala from '@/components/Forms-Salas/cadastrar';
+import Sessao from '@/components/Forms-Sessao';
 import Menu from '@/components/Menu';
-import CadastroComissao from '@/components/Form-Admin/';
 
 import * as S from './styles';
-import { IconComission } from '../styles';
 
 type TabbarProps = {
 	currentOption: string;
@@ -23,8 +24,6 @@ export default function Tabbar({
 		switch (currentOption) {
 			case 'menu':
 				return <Menu />;
-			case 'cadastrar-comissao':
-				return <CadastroComissao />;
 			case 'criar-evento':
 				return (
 					<CriarEvento
@@ -40,11 +39,17 @@ export default function Tabbar({
 			case 'atividades':
 				return;
 			case 'usuarios':
-				return;
+				return (
+					<CadastrarUsuario
+						handleNextClick={() => handleOptionClick('usuarios')}
+					/>
+				);
 			case 'salas':
-				return;
+				return (
+					<VisualizarSala handleNextClick={() => handleOptionClick('salas')} />
+				);
 			case 'sessoes':
-				return;
+				return <Sessao handleNextClick={() => handleOptionClick('sessoes')} />;
 			default:
 				return null;
 		}
@@ -62,18 +67,6 @@ export default function Tabbar({
 							Menu
 						</S.OptionMenu>
 						<S.IconMenu selected={currentOption === 'menu'} />
-					</div>
-					<div className="flex items-center gap-2">
-						<S.OptionMenu
-							onClick={() => handleOptionClick('cadastrar-comissao')}
-							className="flex-shrink-0 cursor-pointer text-sm"
-							selected={currentOption === 'cadastrar-comissao'}
-						>
-							Cadastrar Comissão
-						</S.OptionMenu>
-						<IconComission
-							selected={currentOption === 'cadastrar-comissao'}
-						/>
 					</div>
 					<div className="flex items-center gap-2">
 						<S.OptionMenu
