@@ -1,11 +1,15 @@
 'use client';
 
-import { comissaoRequest } from '@/lib/repository';
-import { Comissao } from '@/lib/repository/comission/index.repository';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import axios from 'axios';
 import { FaTimes } from 'react-icons/fa';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+
+import { comissaoRequest } from '@/lib/repository';
+import { Comissao } from '@/lib/repository/comission/index.repository';
+import { Area } from '@/lib/repository/area/index.repository';
+import { result } from 'lodash';
 
 export default function CadastroComissao() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
@@ -21,8 +25,26 @@ export default function CadastroComissao() {
 	// funcao no evento:
 	const checkboxNames = ['Organizador', 'Chair', 'Avaliador', 'Admin'];
 	const [checkboxes, setCheckboxes] = useState(checkboxNames.map(() => false));
-	const [areas, setAreas] = useState(['']);
 	const [ass, setAss] = useState(['']);
+
+	const [eventId, setEventId] = useState<string | null>('');
+
+	const [areas, setAreas] = useState(['Plastico', 'Caixas', 'Computador']);
+	// const [areas, setAreas] = useState(['']);
+	const [selectedAreas, setSelectedAreas] = useState(['']);
+	// const handleChangeArea = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	// 	if(area)
+
+	// }
+
+	// const addArea = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	// 	setAreas([...areas, e.target.value]);
+	// };
+	// const removeArea = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	// 	const cloneArea = areas
+	// 	cloneArea.pop()
+	// 	setAreas(cloneArea);
+	// };
 
 	const handleCheckboxChange = (index: any) => {
 		setCheckboxes((prev) => {
@@ -31,7 +53,7 @@ export default function CadastroComissao() {
 			return newCheckboxes;
 		});
 	};
-	
+
 	const handleAddArea = (
 		setArea: React.Dispatch<React.SetStateAction<string[]>>
 	) => {
@@ -67,7 +89,24 @@ export default function CadastroComissao() {
 		setConfirmpasswordVisible(!confirmpasswordVisible);
 	};
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	useEffect(() => {
+		async function getAreas() {
+			try {
+				const id = localStorage.getItem('eventId');
+				setEventId(id);
+				const result = await axios.get(`http://localhost:5002/area-event/${id}`);
+				console.log(result.data.areas);
+				if (result.data.areas) {
+					setAreas(result.data.areas);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		getAreas();
+	}, []);
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const data: Comissao = {
 			name,
@@ -82,26 +121,35 @@ export default function CadastroComissao() {
 			avaliador: checkboxes[2],
 			senha: password,
 			// certificado: '',
-		}
-		// areas.map((area: Area, index) => {
-		// 	// area.comissaoId = data.id
-		// 	// area.eventoId = area.eventoId
-		// 	area.nome = area.nome = areas[index]
-		// })
+		};
+		
+		// try {
+		// 	const result = await axios.post('http://localhost:5002/comissao', data);
+		// 	console.log(result);
+		// 	if(result){
+		// 		areas.forEach((area:string, index) =>{
+					
+		// 		})
+		// 		selectedAreas.forEach(async (area: string)=>{
+		// 			const areaObj : Area = {
+		// 				nome: area,
+		// 				eventoId: eventId,
+		// 				comissaoId: result.data.comissao.id
+		// 			}
+		// 			// update areas
+		// 			const resultArea = await axios.put(`http://localhost:5002/comissao/${result.data.}`, areaObj);
+		// 			console.log(result);
+		// 		})
+		// 	}
 
-		try {
-			comissaoRequest.create(data)
-
-			// areas.forEach((area, index) => {
-			// 	areaRequest.create(area)
-			// })
-			console.log(data);
-		} catch (error) {
-			console.log(error);
-		}
-
-	}
-
+		// 	// areas.forEach((area, index) => {
+		// 	// 	areaRequest.create(area)
+		// 	// })
+		// 	console.log(data);
+		// } catch (error) {
+		// 	console.log(error);
+		// }
+	};
 
 	return (
 		<div className="container mb-6 mt-52 flex justify-center">
@@ -237,7 +285,27 @@ export default function CadastroComissao() {
 								<div>
 									<div className="mb-3 flex items-center">
 										<div className="w-full rounded-md border border-gray-300 bg-white px-4 py-2">
-											<input
+											<select
+												className="w-full rounded-md border-0 bg-white text-sm outline-none"
+												id="areas"
+												name="areas"
+												value={areas[areas.length - 1]}
+												onChange={(e) =>
+													handleAreaChange(
+														areas.length - 1,
+														e.target.value,
+														setAreas
+													)
+												}
+												required
+											>
+												{areas.map((area, index) => (
+													<option key={index} value={area}>
+														{area}
+													</option>
+												))}
+											</select>
+											{/* <input
 												className="w-full rounded-md border-0 bg-white text-sm outline-none"
 												type="text"
 												name="areas"
@@ -251,7 +319,7 @@ export default function CadastroComissao() {
 												}
 												placeholder="Áreas de Conhecimento da Comissão"
 												required
-											/>
+											/> */}
 										</div>
 										<div
 											className="ml-3 cursor-pointer rounded-full px-2"

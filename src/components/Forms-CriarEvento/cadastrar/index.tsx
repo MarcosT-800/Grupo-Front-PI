@@ -35,7 +35,7 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 	const [descricao, setDescricao] = useState('');
 	const [tipo, setTipo] = useState('');
 	const [assuntoPrincipal, setAssuntoPrincipal] = useState('');
-	const [adm, setAdm] = useState('');
+	const [adm, setAdm] = useState('ec2b4562-3234-4df9-ba5b-4b9a8226e39b');
 	// const [privado, setPrivado] = useState(false);
 
 	// no proximo form terá:
