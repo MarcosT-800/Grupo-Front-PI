@@ -87,11 +87,72 @@ export default function Sessao({ handleNextClick }: CriarEventoProps) {
 				</button>
 			</div>
 
-			<div className="mt-14 flex w-1/2 flex-col">
+			<div className="mt-14 flex w-2/3 flex-col">
 				<h1 className="text-start text-2xl font-bold text-black">
 					Gerenciamento das sessões
 				</h1>
 			</div>
+
+			<table className="mt-12 w-2/3 text-center">
+				<thead style={{ backgroundColor: '#E4E4E4' }}>
+					<tr className="h-14">
+						<th scope="col">Sessão</th>
+						<th scope="col" className="">
+							Sala
+						</th>
+						<th scope="col" className="">
+							Artigos
+						</th>
+						<th scope="col" className="">
+							Horário
+						</th>
+						<th scope="col" className="">
+							Chair
+						</th>
+						<th scope="col" className="">
+							Ações
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr className="h-20">
+						<td scope="row" className="">
+							01
+						</td>
+						<td className="">01</td>
+						<td className="">
+							<h1 className="text-xs">Artigo 1</h1>
+							<h1 className="text-xs">Artigo 2</h1>
+							<h1 className="text-xs">Artigo 3</h1>
+						</td>
+						<td className="">13:30 até 14:30</td>
+						<td className="">Heitor Golsavez</td>
+						<td className="">
+							<button className="rounded-xl border-2 border-solid  border-black bg-transparent p-2 text-center text-sm text-black">
+								Ver mais
+							</button>
+						</td>
+					</tr>
+					<tr className="h-20" style={{ backgroundColor: '#E4E4E4' }}>
+						<td scope="row" className="">
+							02
+						</td>
+						<td className="">02</td>
+						<td className="">
+							<h1 className="text-xs">Artigo 1</h1>
+							<h1 className="text-xs">Artigo 2</h1>
+							<h1 className="text-xs">Artigo 3</h1>
+						</td>
+						<td className="">13:30 até 14:30</td>
+						<td className="">Heitor Golsavez</td>
+						<td className="">
+							<button className="rounded-xl border-2 border-solid  border-black bg-transparent p-2 text-center text-sm text-black">
+								Ver mais
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	);
 }

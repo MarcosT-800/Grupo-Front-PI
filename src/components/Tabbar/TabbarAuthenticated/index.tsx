@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 
+import CadastrarUsuario from '@/components/Forms-CadastrarUsu';
 import CriarEvento from '@/components/Forms-CriarEvento/cadastrar';
 import DataLocal from '@/components/Forms-DataLocal/cadastrar';
 import VisualizarSala from '@/components/Forms-Salas/cadastrar';
@@ -38,7 +39,11 @@ export default function Tabbar({
 			case 'atividades':
 				return;
 			case 'usuarios':
-				return;
+				return (
+					<CadastrarUsuario
+						handleNextClick={() => handleOptionClick('usuarios')}
+					/>
+				);
 			case 'salas':
 				return (
 					<VisualizarSala handleNextClick={() => handleOptionClick('salas')} />

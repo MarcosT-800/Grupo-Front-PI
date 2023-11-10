@@ -142,42 +142,42 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 				</button>
 			</div>
 
-			<table className="mt-12 w-2/4 items-center justify-center gap-6">
+			<table className="mt-12 w-2/4 text-center">
 				<thead style={{ backgroundColor: '#E4E4E4' }}>
 					<tr className="h-14">
 						<th scope="col">Tipo</th>
-						<th scope="col" className="pl-2">
+						<th scope="col" className="">
 							Andar
 						</th>
-						<th scope="col" className="pl-2">
+						<th scope="col" className="">
 							Número
 						</th>
-						<th scope="col" className="pl-6">
+						<th scope="col" className="">
 							Limite de Pessoas
 						</th>
-						<th scope="col" className="pl-2">
+						<th scope="col" className="">
 							Tema
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr className="h-14">
-						<td scope="row" className="items-center justify-center pl-12">
+						<td scope="row" className="">
 							Palestra
 						</td>
-						<td className="items-center justify-center pl-8">4</td>
-						<td className="items-center pl-10">2344</td>
-						<td className="items-center pl-24">67</td>
-						<td className="items-end pl-20">Plástico</td>
+						<td className="">4</td>
+						<td className="">2344</td>
+						<td className="">67</td>
+						<td className="">Plástico</td>
 					</tr>
 					<tr className="h-14" style={{ backgroundColor: '#E4E4E4' }}>
-						<td scope="row" className="items-center pl-12">
+						<td scope="row" className="">
 							aaaa
 						</td>
-						<td className="items-center pl-8">7</td>
-						<td className="items-center pl-10">20</td>
-						<td className="items-center pl-24">74</td>
-						<td className="items-end pl-20">Inteligência</td>
+						<td className="">7</td>
+						<td className="">20</td>
+						<td className="">74</td>
+						<td className="">Inteligência</td>
 					</tr>
 				</tbody>
 			</table>
