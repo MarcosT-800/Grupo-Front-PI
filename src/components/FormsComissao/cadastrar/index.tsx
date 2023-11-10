@@ -5,6 +5,8 @@ import { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
+import mockedOptionAreas from '@/mocks/OptionsAreas';
+
 export default function CadastroComissao() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [password, setPassword] = useState('');
@@ -23,6 +25,7 @@ export default function CadastroComissao() {
 
 	const [areas, setAreas] = useState(['']);
 	const [ass, setAss] = useState(['']);
+	const [isBoxVisible, setIsBoxVisible] = useState(false);
 
 	const handleAddArea = (
 		setArea: React.Dispatch<React.SetStateAction<string[]>>
@@ -30,7 +33,11 @@ export default function CadastroComissao() {
 		const lastArea =
 			setArea === setAreas ? areas[areas.length - 1] : ass[ass.length - 1];
 
-		if (lastArea.trim() !== '') {
+		const hasBlankArea =
+			setArea === setAreas ? areas.includes('') : ass.includes('');
+
+		if (lastArea.trim() !== '' || !hasBlankArea) {
+			setIsBoxVisible(true);
 			setArea((prevAreas) => [...prevAreas, '']);
 		}
 	};
@@ -184,63 +191,76 @@ export default function CadastroComissao() {
 								<label className="mb-2 text-sm font-medium" htmlFor="areas">
 									Áreas de Conhecimento
 								</label>
-								<div>
-									<div className="mb-3 flex items-center">
-										<div className="w-full rounded-md border border-gray-300 bg-white px-4 py-2">
-											<input
-												className="w-full rounded-md border-0 bg-white text-sm outline-none"
-												type="text"
-												name="areas"
-												value={areas[areas.length - 1]}
-												onChange={(e) =>
-													handleAreaChange(
-														areas.length - 1,
-														e.target.value,
-														setAreas
-													)
-												}
-												placeholder="Áreas de Conhecimento da Comissão"
-												required
-											/>
-										</div>
-										<div
-											className="ml-3 cursor-pointer rounded-full px-2"
-											onClick={() => handleAddArea(setAreas)}
-											style={{ backgroundColor: '#4B00E0' }}
+								<div className="flex items-center">
+									<div className="w-full rounded-md border border-gray-300 bg-white px-4 py-2">
+										<select
+											className="w-full rounded-md border-0 bg-white text-sm outline-none"
+											name="areas"
+											value={areas[areas.length - 1]}
+											onChange={(e) =>
+												handleAreaChange(
+													areas.length - 1,
+													e.target.value,
+													setAreas
+												)
+											}
+											required
 										>
-											<p className="text-xl font-bold text-white">+</p>
-										</div>
+											<option value="Areas" selected>
+												Áreas de Conhecimento
+											</option>
+											{Object.values(mockedOptionAreas).map((option, index) => (
+												<option key={index} value={option.value}>
+													{option.label}
+												</option>
+											))}
+										</select>
 									</div>
-									<div className="flex gap-2.5">
-										{areas.map((area, index) => (
-											<div
-												key={index}
-												className="flex items-center rounded-full border border-gray-300 bg-white px-2 py-0.5"
-											>
-												<div className="w-full">
-													<input
-														className="w-full rounded-md border-0 bg-white text-sm outline-none"
-														type="text"
-														name="areas"
-														value={area}
-														onChange={(e) =>
-															handleAreaChange(index, e.target.value, setAreas)
-														}
-														readOnly
-														required
-													/>
-												</div>
-												<div
-													className="ml-2 cursor-pointer rounded-full px-1"
-													style={{ backgroundColor: '#ef0037' }}
-													onClick={() => handleRemoveArea(index, setAreas)}
-												>
-													<FaTimes className="w-2 text-white" />
-												</div>
-											</div>
-										))}
+									<div
+										className="ml-3 cursor-pointer rounded-full px-2"
+										onClick={() => handleAddArea(setAreas)}
+										style={{ backgroundColor: '#4B00E0' }}
+									>
+										<p className="text-xl font-bold text-white">+</p>
 									</div>
 								</div>
+								{isBoxVisible && (
+									<div className="flex gap-2.5">
+										{areas
+											.filter((area) => area.trim() !== '') // Exclui as áreas em branco
+											.map((area, index) => (
+												<div
+													key={index}
+													className="mt-3 flex items-center rounded-full border border-gray-300 bg-white px-2 py-0.5"
+												>
+													<div className="w-full">
+														<input
+															className="w-full rounded-md border-0 bg-white text-sm outline-none"
+															type="text"
+															name="areas"
+															value={area}
+															onChange={(e) =>
+																handleAreaChange(
+																	index,
+																	e.target.value,
+																	setAreas
+																)
+															}
+															readOnly
+															required
+														/>
+													</div>
+													<div
+														className="ml-2 cursor-pointer rounded-full px-1"
+														style={{ backgroundColor: '#ef0037' }}
+														onClick={() => handleRemoveArea(index, setAreas)}
+													>
+														<FaTimes className="w-2 text-white" />
+													</div>
+												</div>
+											))}
+									</div>
+								)}
 							</div>
 							<div className="mb-5 flex flex-col">
 								<label
