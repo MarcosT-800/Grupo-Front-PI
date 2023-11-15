@@ -1,14 +1,49 @@
 'use client';
 
+import { Sala } from "@/lib/repository/sala/index.repository";
+import axios from "axios";
+import { toNumber } from "lodash";
+import { useState } from "react";
+
 type CriarEventoProps = {
 	handleNextClick: () => void;
 };
 
 export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
+	const [tipo, setTipo] = useState('')
+	const [limite, setLimite] = useState('')
+	const [andar, setAndar] = useState('')
+	const [numero, setNumero] = useState('')
+	const [tema, setTema] = useState('')
+
 	const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		handleNextClick();
 	};
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		console.log("teste")
+		e.preventDefault();
+		const eventId = localStorage.getItem('eventId');
+		console.log(eventId)
+		if(eventId){
+			const data: Sala = {
+				andar: toNumber(andar),
+				numero: toNumber(numero),
+				limitePessoas: toNumber(limite),
+				temaSala: tema,
+				tipo,
+				eventId: eventId
+			};
+			console.log(data)
+			try {
+				const response = await axios.post('http://localhost:5002/sala', data);
+				console.log(response.data);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+	}
 
 	return (
 		<div className="container mb-6 mt-52 flex flex-col items-center">
@@ -24,7 +59,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 				</h2>
 			</div>
 
-			<form className="mt-8 flex flex-col bg-white">
+			<form className="mt-8 flex flex-col bg-white" onSubmit={handleSubmit}>
 				<div className="mb-5 flex flex-row gap-6">
 					<div className="mb-5 flex flex-col">
 						<label className="mb-2 text-sm font-medium " htmlFor="tipo">
@@ -37,6 +72,8 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 								name="tipo"
 								id="tipo"
 								placeholder="Digite o tipo"
+								value={tipo}
+								onChange={(e) => setTipo(e.target.value)}
 								required
 							/>
 						</div>
@@ -48,10 +85,12 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 						<div className="rounded-md border border-gray-300 bg-white px-4 py-2">
 							<input
 								className="w-48 rounded-md border-0 bg-white text-sm outline-none"
-								type="text"
+								type="number"
 								name="limite_pessoas"
 								id="limite_pessoas"
 								placeholder="Digite o limite de pessoas"
+								value={limite}
+								onChange={(e) => setLimite(e.target.value)}
 								required
 							/>
 						</div>
@@ -70,6 +109,8 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 								name="andar"
 								id="andar"
 								placeholder="Digite o Andar"
+								value={andar}
+								onChange={(e) => setAndar(e.target.value)}
 								required
 							/>
 						</div>
@@ -86,6 +127,8 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 								name="num"
 								id="num"
 								placeholder="Digite o Número"
+								value={numero}
+								onChange={(e) => setNumero(e.target.value)}
 								required
 							/>
 						</div>
@@ -104,6 +147,8 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 								name="tema"
 								id="tema"
 								placeholder="Digite o Tema"
+								value={tema}
+								onChange={(e) => setTema(e.target.value)}
 								required
 							/>
 						</div>

@@ -10,6 +10,11 @@ export default function Sessao({ handleNextClick }: CriarEventoProps) {
 		handleNextClick();
 	};
 
+
+		// localStorage.removeItem('areas');
+		// localStorage.removeItem('event');
+		// localStorage.removeItem('eventId');
+
 	return (
 		<div className="container mb-6 mt-52 flex flex-col items-center">
 			<div className="w-1/2">

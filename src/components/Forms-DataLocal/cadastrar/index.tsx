@@ -46,22 +46,22 @@ export default function DataLocal({ handleNextClick }: CriarEventoProps) {
 
 		// cadastrando evento:
 		const data: Event = JSON.parse(localStorage.getItem('event') || '{}');
-		// if (data) {
-		// 	data.local = `${local}, ${cep}, ${estado}, ${cidade}`;
-		// 	data.cep = cep;
-		// 	data.dataInicio = dataInicio;
-		// 	data.dataFinal = dataFinal;
-		// 	data.horarioInicio = horarioInicio;
-		// 	data.horarioFim = horarioFinal;
-		// 	data.periodo = checkboxPeriodo[0] || checkboxPeriodo[1] || checkboxPeriodo[2];
-		// 	try {
-		// 		const result = await axios.post('http://localhost:5002/event', data);
-		// 		localStorage.setItem('eventId', result.data.userCreated.id);
-		// 		console.log(result);
-		// 	} catch (error) {
-		// 		console.log(error);
-		// 	}
-		// }
+		if (data) {
+			data.local = `${local}, ${cep}, ${estado}, ${cidade}`;
+			data.cep = cep;
+			data.dataInicio = dataInicio;
+			data.dataFinal = dataFinal;
+			data.horarioInicio = horarioInicio;
+			data.horarioFim = horarioFinal;
+			data.periodo = checkboxPeriodo[0] || checkboxPeriodo[1] || checkboxPeriodo[2];
+			try {
+				const result = await axios.post('http://localhost:5002/event', data);
+				localStorage.setItem('eventId', result.data.userCreated.id);
+				console.log(result);
+			} catch (error) {
+				console.log(error);
+			}
+		}
 		// cadastrando as areas:
 		const parsedAreas = JSON.parse(localStorage.getItem('areas') || '[]');
 		if(parsedAreas){
@@ -79,10 +79,6 @@ export default function DataLocal({ handleNextClick }: CriarEventoProps) {
 				}
 			});
 		}
-
-		// localStorage.removeItem('areas');
-		// localStorage.removeItem('event');
-		// localStorage.removeItem('eventId');
 	};
 
 	return (
