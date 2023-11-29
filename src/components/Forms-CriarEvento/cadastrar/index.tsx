@@ -6,6 +6,8 @@ import axios from 'axios';
 import { FaTimes } from 'react-icons/fa';
 import { FiUpload } from 'react-icons/fi';
 
+import { Area } from '@/lib/repository/area/index.repository';
+import { Comissao } from '@/lib/repository/comission/index.repository';
 import { Event } from '@/lib/repository/event/index.repository';
 
 type CriarEventoProps = {
@@ -13,30 +15,12 @@ type CriarEventoProps = {
 };
 
 export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
-	// id?: string;
-	// email: string;
-	// nome: string;
-	// descricao: string;
-	// tipo: string;
-	// assuntoPrincipal: string;
-	// local: string;
-	// dataInicio: Date;
-	// dataFinal: Date;
-	// privado: boolean;
-	// anais: boolean;
-	// certificados: boolean;
-	// logo?: string | null;
-	// periodo: string;
-	// createdAt: Date;
-	// comissaoId: string;
-
 	const [nome, setNome] = useState('');
 	const [email, setEmail] = useState('');
 	const [descricao, setDescricao] = useState('');
 	const [tipo, setTipo] = useState('');
 	const [assuntoPrincipal, setAssuntoPrincipal] = useState('');
 	const [adm, setAdm] = useState('ec2b4562-3234-4df9-ba5b-4b9a8226e39b');
-	// const [privado, setPrivado] = useState(false);
 
 	// no proximo form terá:
 	// const [local, setLocal] = useState('');
@@ -47,49 +31,57 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 		e.preventDefault();
 		handleNextClick();
 	};
-	const [admins, setAdmins] = useState([
+	const [admins, setAdmins] = useState<Comissao[]>([
 		{
 			id: 'ec2b4562-3234-4df9-ba5b-4b9a8226e39b',
-			nome: 'Julia Martins',
+			name: 'Julia Martins',
 			email: 'juliamartins@gmail.com',
-		},
-		{
-			id: 'ec2b4562-3234-4df9-ba5b-4b9a8226e39b',
-			nome: 'João Pedro',
-			email: 'joaopedro@gmail.com',
+			cpf: '',
+			instituicao: '',
+			lattes: '',
+			senha: '',
+			turno: '',
+			adm: false,
+			avaliador: false,
+			chair: false,
+			organizador: false,
 		},
 	]);
+
 	const checkboxEvento = ['Público', 'Privado'];
 	const [checkboxes, setCheckboxes] = useState(checkboxEvento.map(() => false));
 	const checkboxGerar = ['Anais', 'Certificados'];
 	const [checkboxesGerar, setCheckboxesGerar] = useState(
 		checkboxGerar.map(() => false)
 	);
-	const [areas, setAreas] = useState(['']);
-	const [ass, setAss] = useState(['']);
+	const [areas, setAreas] = useState<Area[]>([{
+		nome: 'random'
+	}]);
+	const [ass, setAss] = useState<Area[]>([]);
+
 	const handleAddArea = (
-		setArea: React.Dispatch<React.SetStateAction<string[]>>
+		setArea: React.Dispatch<React.SetStateAction<Area[]>>
 	) => {
 		const lastArea =
 			setArea === setAreas ? areas[areas.length - 1] : ass[ass.length - 1];
-
-		if (lastArea.trim() !== '') {
-			setArea((prevAreas) => [...prevAreas, '']);
+		if (lastArea !== null) {
+			setArea((prevAreas) => [...prevAreas]);
 		}
 	};
 	const handleRemoveArea = (
 		index: number,
-		setArea: React.Dispatch<React.SetStateAction<string[]>>
+		setArea: React.Dispatch<React.SetStateAction<Area[]>>
 	) => {
 		setArea((prevAreas) => prevAreas.filter((_, i) => i !== index));
 	};
+
 	const handleAreaChange = (
 		index: number,
 		value: string,
-		setArea: React.Dispatch<React.SetStateAction<string[]>>
+		setArea: React.Dispatch<React.SetStateAction<Area[]>>
 	) => {
 		const newAreas = [...(setArea === setAreas ? areas : ass)];
-		newAreas[index] = value;
+		newAreas[index].nome = value;
 		setArea(newAreas);
 	};
 
@@ -122,36 +114,45 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 		setFile(null);
 	};
 
-	// criar query no backend, trazer id, nome e email do admin
-	// useEffect(() => {
-	// 	const getAdmins = async () => {
-	// 		const response = await axios.get('http://localhost:5002/comissao?adm=true');
-	// 		setAdmins(response.data)
-	// 	};
-	// 	getAdmins();
-	// }, []);
+	useEffect(() => {
+		const getInfos = async () => {
+			try {
+				const id = localStorage.getItem('eventId');
+				const result = await axios.get(
+					`http://localhost:5002/area-event/${id}`
+				);
+				const response = await axios.get(
+					'http://localhost:5002/comissao?adm=true'
+				);
+				if (result.data.areas && response.data.comissao) {
+					setAreas(result.data.areas);
+					setAdmins(response.data.comissao);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		getInfos();
+	}, []);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		localStorage.clear()
-		localStorage.setItem('areas', JSON.stringify(areas));
-		const event : Event = {
+		localStorage.clear();
+		const event: Event = {
 			comissaoId: adm,
 			anais: checkboxesGerar[0],
 			certificados: checkboxesGerar[1],
 			assuntoPrincipal: assuntoPrincipal,
-			// createdAt: new Date(),
-			// dataInicio: new Date(),
-			// dataFinal: new Date(),
 			periodo: 'Integral', // mockado
 			descricao: descricao,
 			emailEvento: email,
 			nomeEvento: nome,
 			privado: checkboxes[1],
 			tipo,
-			logo: file ? file.name : null, // nao necessario por enquanto
-		}
-		localStorage.setItem('event', JSON.stringify(event))
+			logo: file ? file.name : null,
+		};
+		localStorage.setItem('areas', JSON.stringify(areas));
+		localStorage.setItem('event', JSON.stringify(event));
 		handleNextClick();
 	};
 
@@ -243,24 +244,6 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 							</div>
 						</div>
 						<div className="w-full">
-							{/* <div className="mb-5 flex flex-col">
-								<label className="mb-2 text-sm font-medium" htmlFor="name">
-									Nome do Administrador
-								</label>
-
-								<div className="rounded-md border border-gray-300 bg-white px-4 py-2">
-									<select
-										className="w-full rounded-md border-0 bg-white text-sm outline-none"
-										name="name"
-										id="name"
-										required
-									>
-										{admins.map((admin, index) => (
-											<option key={index} value={admin.nome}>{admin.nome}</option>
-										))}
-									</select>
-								</div>
-							</div> */}
 							<div className="mb-5 flex flex-col">
 								<label className="mb-2 text-sm font-medium" htmlFor="email">
 									Email do Administrador
@@ -277,7 +260,7 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 									>
 										{admins.map((admin, index) => (
 											<option key={index} value={admin.id}>
-												{admin.email}
+												{`email: ${admin.email} nome: ${admin.name} `}
 											</option>
 										))}
 									</select>
@@ -435,7 +418,7 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 												className="w-full rounded-md border-0 bg-white text-sm outline-none"
 												type="text"
 												name="areas"
-												value={areas[areas.length - 1]}
+												value={areas[areas.length - 1].nome}
 												onChange={(e) =>
 													handleAreaChange(
 														areas.length - 1,
@@ -466,7 +449,7 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 														className="w-full rounded-md border-0 bg-white text-sm outline-none"
 														type="text"
 														name="areas"
-														value={area}
+														value={area.nome}
 														onChange={(e) =>
 															handleAreaChange(index, e.target.value, setAreas)
 														}

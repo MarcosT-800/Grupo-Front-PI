@@ -22,10 +22,9 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 	};
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		console.log("teste")
 		e.preventDefault();
 		const eventId = localStorage.getItem('eventId');
-		console.log(eventId)
+		console.log("eventId: ", eventId)
 		if(eventId){
 			const data: Sala = {
 				andar: toNumber(andar),
@@ -33,7 +32,8 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 				limitePessoas: toNumber(limite),
 				temaSala: tema,
 				tipo,
-				eventId: eventId
+				// problems with event id, it says unknows argument, even already register
+				eventId: "34084bbe-634e-4699-8151-8c33392ebccf"
 			};
 			console.log(data)
 			try {

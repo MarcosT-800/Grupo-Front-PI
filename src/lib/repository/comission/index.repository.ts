@@ -1,3 +1,5 @@
+// import { Area } from "../area/index.repository";
+
 export type Comissao = {
     id?: string
     name: string;
@@ -12,6 +14,7 @@ export type Comissao = {
     organizador: boolean | null ;
     avaliador: boolean | null ;
     chair: boolean | null ;
+    areas?: string[];
 }
 export interface IComissaoRepository {
     create(comissao: Comissao): Promise<Comissao>;

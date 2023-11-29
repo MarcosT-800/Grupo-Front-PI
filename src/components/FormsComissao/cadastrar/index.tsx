@@ -40,6 +40,26 @@ export default function CadastroComissao() {
 	const [areas, setAreas] = useState(['']);
 	const [ass, setAss] = useState(['']);
 	const [isBoxVisible, setIsBoxVisible] = useState(false);
+	// const [areas, setAreas] = useState<Area[]>([{
+		// nome: 'random'
+	// }]);
+	// const [ass, setAss] = useState<Area[]>([]);
+	// const [existingAreaId, setExistingAreaId] = useState<string[]>([])
+	// const [existingAreaId, setExistingAreaId] = useState<string[]>(["0","1","2","3"])
+	// const [toUpdateAreaId, setToUpdateAreaId] = useState<string[]>([])
+	// const [existingAreaId, setRealArea] = useState<Area[]>([])
+	const [realAreas, setRealAreas] = useState<Area[]>([
+		{
+		nome: "caixas",
+		id: "1234sd",
+		eventoId: "4312ewae"
+		},
+		{
+		nome: "plastico",
+		id: "1234sd",
+		eventoId: "4312ewae"
+		}
+	])
 
 	const handleAddArea = (
 		setArea: React.Dispatch<React.SetStateAction<string[]>>
@@ -61,6 +81,7 @@ export default function CadastroComissao() {
 		setArea: React.Dispatch<React.SetStateAction<string[]>>
 	) => {
 		setArea((prevAreas) => prevAreas.filter((_, i) => i !== index));
+		// setToUpdateAreaId((prevIds) => prevIds.filter((_, i) => i !== index))
 	};
 
 	const handleAreaChange = (
@@ -69,7 +90,11 @@ export default function CadastroComissao() {
 		setArea: React.Dispatch<React.SetStateAction<string[]>>
 	) => {
 		const newAreas = [...(setArea === setAreas ? areas : ass)];
+		// const newRealAreas = [...(setArea === setAreas ? toUpdateAreaId : ass)];
 		newAreas[index] = value;
+		// newRealAreas[index] = existingAreaId[index];
+		// toUpdateAreaId[index] = existingAreaId[index];
+		// setToUpdateAreaId(newRealAreas);
 		setArea(newAreas);
 	};
 
@@ -80,8 +105,6 @@ export default function CadastroComissao() {
 		setConfirmpasswordVisible(!confirmpasswordVisible);
 	};
 
-
-
 	useEffect(() => {
 		async function getAreas() {
 			try {
@@ -89,8 +112,11 @@ export default function CadastroComissao() {
 				setEventId(id);
 				const result = await axios.get(`http://localhost:5002/area-event/${id}`);
 				if (result.data.areas) {
-					console.log(result.data.areas);
-					// setAreas(result.data.areas);
+					// const aa : Area[] = result.data.areas;
+					// setAreas(aa.map(area => area.nome));
+					// setExistingAreaId(aa.map(area => area.id || ""))
+					setRealAreas(result.data.areas);
+					// setAreas(existingAreaId.map(area => area.nome));
 				}
 			} catch (error) {
 				console.log(error);
@@ -100,43 +126,33 @@ export default function CadastroComissao() {
 	}, []);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const data: Comissao = {
-			name,
-			cpf,
-			email,
-			instituicao,
-			turno,
-			lattes,
-			adm: checkboxes[3],
-			organizador: checkboxes[0],
-			chair: checkboxes[1],
-			avaliador: checkboxes[2],
-			senha: password,
-			// certificado: '',
-		};
+		e.preventDefault()
+		console.log(areas);
+		// e.preventDefault();
+		// const data: Comissao = {
+		// 	name,
+		// 	cpf,
+		// 	email,
+		// 	instituicao,
+		// 	turno,
+		// 	lattes,
+		// 	adm: checkboxes[3],
+		// 	organizador: checkboxes[0],
+		// 	chair: checkboxes[1],
+		// 	avaliador: checkboxes[2],
+		// 	senha: password,
+		// 	// certificado: '',
+		// 	areas: toUpdateAreaId
+		// };
 		
-		try {
-			const result = await axios.post('http://localhost:5002/comissao', data);
-			console.log(result);
-			if(result){
-				// areas.forEach((area:string, index) =>{
-					
-				// })
-				// selectedAreas.forEach(async (area: string)=>{
-				// 	const areaObj : Area = {
-				// 		nome: area,
-				// 		eventoId: eventId,
-				// 		comissaoId: result.data.comissao.id
-				// 	}
-				// 	// update areas
-				// 	const resultArea = await axios.put(`http://localhost:5002/comissao/${result.data.}`, areaObj);
-				// 	console.log(result);
-				// })
-			}
-		} catch (error) {
-			console.log(error);
-		}
+		// try {
+		// 	const result = await axios.post('http://localhost:5002/comissao', data);
+		// 	if(result){
+		// 		console.log(result);
+		// 	}
+		// } catch (error) {
+		// 	console.log(error);
+		// }
 	};
 
 	return (
@@ -285,12 +301,13 @@ export default function CadastroComissao() {
 											}
 											required
 										>
-											<option value="Areas" selected>
+											<option value="Areas" defaultValue="Area de conhecimento">
 												Áreas de Conhecimento
 											</option>
-											{Object.values(mockedOptionAreas).map((option, index) => (
-												<option key={index} value={option.value}>
-													{option.label}
+											{/* {Object.values(mockedOptionAreas).map((option, index) => ( */}
+											{realAreas.map((option, index) => (
+												<option key={index} value={option.id}>
+													{option.nome}
 												</option>
 											))}
 										</select>
