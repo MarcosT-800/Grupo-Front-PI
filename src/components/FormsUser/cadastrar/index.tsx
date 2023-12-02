@@ -3,6 +3,9 @@
 import { useState } from 'react';
 
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import Select from 'react-select';
+
+import mockedOptionTurnos from '@/mocks/OptionsTurnos';
 
 /*type CadastroAdminProps = {
 	handleNextClick: () => void;
@@ -13,6 +16,18 @@ export default function CadastroUser() {
 	const [password, setPassword] = useState('');
 	const [confirmpasswordVisible, setConfirmpasswordVisible] = useState(false);
 	const [confirmpassword, setConfirmpassword] = useState('');
+
+	const customStyles = {
+		control: (provided: any) => ({
+			...provided,
+			width: '100%',
+			height: 'auto',
+			borderRadius: '0.375rem',
+			border: '1',
+			background: 'white',
+			fontSize: '0.875rem',
+		}),
+	};
 
 	const handleTogglePasswordVisibility = () => {
 		setPasswordVisible(!passwordVisible);
@@ -157,17 +172,14 @@ export default function CadastroUser() {
 									Período de Estudo
 								</label>
 
-								<div className="rounded-md border border-gray-300 bg-white px-4 py-2">
-									<select
-										className="w-full rounded-md border-0 bg-white text-sm outline-none"
-										name="periodo"
-										id="periodo"
-										required
-									>
-										<option value="Matutino">Matutino</option>
-										<option value="Vespertino">Vespertino</option>
-										<option value="Noturno">Noturno</option>
-									</select>
+								<div className="w-full">
+									<Select
+										name="turnos"
+										options={mockedOptionTurnos}
+										className="basic-multi-select border-gray-300"
+										classNamePrefix="select"
+										styles={customStyles}
+									/>
 								</div>
 							</div>
 							<div className="mb-5 flex flex-col">
