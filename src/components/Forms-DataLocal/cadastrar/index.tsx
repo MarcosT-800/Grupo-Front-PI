@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import { Area } from '@/lib/repository/area/index.repository';
 import { Event } from '@/lib/repository/event/index.repository';
+import moment from 'moment';
 
 type CriarEventoProps = {
 	handleNextClick: () => void;
@@ -43,7 +44,6 @@ export default function DataLocal({ handleNextClick }: CriarEventoProps) {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
 		// cadastrando evento:
 		const data: Event = JSON.parse(localStorage.getItem('event') || '{}');
 		if (data) {

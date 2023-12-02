@@ -20,7 +20,7 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 	const [descricao, setDescricao] = useState('');
 	const [tipo, setTipo] = useState('');
 	const [assuntoPrincipal, setAssuntoPrincipal] = useState('');
-	const [adm, setAdm] = useState('ec2b4562-3234-4df9-ba5b-4b9a8226e39b');
+	// const [adm, setAdm] = useState('ec2b4562-3234-4df9-ba5b-4b9a8226e39b');
 
 	// no proximo form terá:
 	// const [local, setLocal] = useState('');
@@ -54,34 +54,30 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 	const [checkboxesGerar, setCheckboxesGerar] = useState(
 		checkboxGerar.map(() => false)
 	);
-	const [areas, setAreas] = useState<Area[]>([{
-		nome: 'random'
-	}]);
-	const [ass, setAss] = useState<Area[]>([]);
-
+	const [areas, setAreas] = useState(['']);
+	const [ass, setAss] = useState(['']);
 	const handleAddArea = (
-		setArea: React.Dispatch<React.SetStateAction<Area[]>>
+		setArea: React.Dispatch<React.SetStateAction<string[]>>
 	) => {
 		const lastArea =
 			setArea === setAreas ? areas[areas.length - 1] : ass[ass.length - 1];
-		if (lastArea !== null) {
-			setArea((prevAreas) => [...prevAreas]);
+		if (lastArea.trim() !== '') {
+			setArea((prevAreas) => [...prevAreas, '']);
 		}
 	};
 	const handleRemoveArea = (
 		index: number,
-		setArea: React.Dispatch<React.SetStateAction<Area[]>>
+		setArea: React.Dispatch<React.SetStateAction<string[]>>
 	) => {
 		setArea((prevAreas) => prevAreas.filter((_, i) => i !== index));
 	};
-
 	const handleAreaChange = (
 		index: number,
 		value: string,
-		setArea: React.Dispatch<React.SetStateAction<Area[]>>
+		setArea: React.Dispatch<React.SetStateAction<string[]>>
 	) => {
 		const newAreas = [...(setArea === setAreas ? areas : ass)];
-		newAreas[index].nome = value;
+		newAreas[index] = value;
 		setArea(newAreas);
 	};
 
@@ -114,32 +110,33 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 		setFile(null);
 	};
 
-	useEffect(() => {
-		const getInfos = async () => {
-			try {
-				const id = localStorage.getItem('eventId');
-				const result = await axios.get(
-					`http://localhost:5002/area-event/${id}`
-				);
-				const response = await axios.get(
-					'http://localhost:5002/comissao?adm=true'
-				);
-				if (result.data.areas && response.data.comissao) {
-					setAreas(result.data.areas);
-					setAdmins(response.data.comissao);
-				}
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		getInfos();
-	}, []);
+	// useEffect(() => {
+	// 	const getInfos = async () => {
+	// 		try {
+	// 			const id = localStorage.getItem('eventId');
+	// 			const result = await axios.get(
+	// 				`http://localhost:5002/area-event/${id}`
+	// 			);
+	// 			const response = await axios.get(
+	// 				'http://localhost:5002/comissao?adm=true'
+	// 			);
+	// 			if (result.data.areas && response.data.comissao) {
+	// 				setAreas(result.data.areas);
+	// 				setAdmins(response.data.comissao);
+	// 			}
+	// 		} catch (error) {
+	// 			console.log(error);
+	// 		}
+	// 	};
+	// 	getInfos();
+	// }, []);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		localStorage.clear();
 		const event: Event = {
-			comissaoId: adm,
+			// comissaoId: adm,
+			comissaoId: 'ec2b4562-3234-4df9-ba5b-4b9a8226e39b',
 			anais: checkboxesGerar[0],
 			certificados: checkboxesGerar[1],
 			assuntoPrincipal: assuntoPrincipal,
@@ -244,28 +241,6 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 							</div>
 						</div>
 						<div className="w-full">
-							<div className="mb-5 flex flex-col">
-								<label className="mb-2 text-sm font-medium" htmlFor="email">
-									Email do Administrador
-								</label>
-
-								<div className="rounded-md border border-gray-300 bg-white px-4 py-2">
-									<select
-										className="w-full rounded-md border-0 bg-white text-sm outline-none"
-										name="email"
-										id="email"
-										value={adm}
-										onChange={(e) => setAdm(e.target.value)}
-										required
-									>
-										{admins.map((admin, index) => (
-											<option key={index} value={admin.id}>
-												{`email: ${admin.email} nome: ${admin.name} `}
-											</option>
-										))}
-									</select>
-								</div>
-							</div>
 							<div className="mb-5 flex flex-col">
 								<label
 									className="mb-2 text-sm font-medium"
@@ -418,7 +393,7 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 												className="w-full rounded-md border-0 bg-white text-sm outline-none"
 												type="text"
 												name="areas"
-												value={areas[areas.length - 1].nome}
+												value={areas[areas.length - 1]}
 												onChange={(e) =>
 													handleAreaChange(
 														areas.length - 1,
@@ -449,7 +424,7 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 														className="w-full rounded-md border-0 bg-white text-sm outline-none"
 														type="text"
 														name="areas"
-														value={area.nome}
+														value={area}
 														onChange={(e) =>
 															handleAreaChange(index, e.target.value, setAreas)
 														}

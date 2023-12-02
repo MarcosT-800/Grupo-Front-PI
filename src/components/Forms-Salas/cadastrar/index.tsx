@@ -1,49 +1,99 @@
 'use client';
 
-import { Sala } from "@/lib/repository/sala/index.repository";
-import axios from "axios";
-import { toNumber } from "lodash";
-import { useState } from "react";
+import { useEffect, useState } from 'react';
+
+import axios from 'axios';
+import { toNumber } from 'lodash';
+import moment from 'moment';
+
+import { Sala } from '@/lib/repository/sala/index.repository';
 
 type CriarEventoProps = {
 	handleNextClick: () => void;
 };
 
 export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
-	const [tipo, setTipo] = useState('')
-	const [limite, setLimite] = useState('')
-	const [andar, setAndar] = useState('')
-	const [numero, setNumero] = useState('')
-	const [tema, setTema] = useState('')
+	const [tipo, setTipo] = useState('');
+	const [limite, setLimite] = useState('');
+	const [andar, setAndar] = useState('');
+	const [numero, setNumero] = useState('');
+	const [tema, setTema] = useState('');
+	const [salas, setSalas] = useState<Sala[]>([
+		// {
+		// 	andar: toNumber('12'),
+		// 	numero: toNumber('14'),
+		// 	limitePessoas: toNumber('32'),
+		// 	temaSala: 'caixa',
+		// 	tipo: 'palestra',
+		// 	eventId: '5a57554e-fb55-4022-9873-0e67df9ed507',
+		// },
+		// {
+		// 	andar: toNumber('12'),
+		// 	numero: toNumber('16'),
+		// 	limitePessoas: toNumber('32'),
+		// 	temaSala: 'computador',
+		// 	tipo: 'palestra',
+		// 	eventId: '5a57554e-fb55-4022-9873-0e67df9ed507',
+		// },
+	]);
 
-	const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
+	const handleNextButtonClick = () => {
 		handleNextClick();
 	};
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
+
 		const eventId = localStorage.getItem('eventId');
-		console.log("eventId: ", eventId)
-		if(eventId){
-			const data: Sala = {
-				andar: toNumber(andar),
-				numero: toNumber(numero),
-				limitePessoas: toNumber(limite),
-				temaSala: tema,
-				tipo,
-				// problems with event id, it says unknows argument, even already register
-				eventId: "34084bbe-634e-4699-8151-8c33392ebccf"
-			};
-			console.log(data)
+		// const eventId = '5a57554e-fb55-4022-9873-0e67df9ed507';
+		console.log(salas)
+
+		if (eventId) {
+			let salasCreated: Sala[] = [];
 			try {
-				const response = await axios.post('http://localhost:5002/sala', data);
-				console.log(response.data);
+				salas.forEach(async (sala) => {
+					const salaObjt: Sala = {
+						andar: sala.andar,
+						numero: sala.numero,
+						limitePessoas: sala.limitePessoas,
+						temaSala: sala.temaSala,
+						tipo: sala.tipo,
+						eventId,
+					};
+					const result = await axios.post(
+						'http://localhost:5002/sala',
+						salaObjt
+					);
+					console.log(result);
+					if (result.data.sala) {
+						salasCreated.push(result.data.sala);
+						setAndar('');
+						setLimite('');
+						setNumero('');
+						setTema('');
+						setTipo('');
+					}
+				});
+				handleNextButtonClick();
 			} catch (error) {
 				console.log(error);
 			}
 		}
-	}
+		handleNextClick();
+	};
+	const handleAddOnTable = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setSalas((prev) => [
+			...prev,
+			{
+				andar: toNumber(andar),
+				numero: toNumber(numero),
+				limitePessoas: toNumber(limite),
+				temaSala: tema,
+				tipo
+			},
+		]);
+	};
 
 	return (
 		<div className="container mb-6 mt-52 flex flex-col items-center">
@@ -59,7 +109,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 				</h2>
 			</div>
 
-			<form className="mt-8 flex flex-col bg-white" onSubmit={handleSubmit}>
+			<form className="mt-8 flex flex-col bg-white" onSubmit={handleAddOnTable}>
 				<div className="mb-5 flex flex-row gap-6">
 					<div className="mb-5 flex flex-col">
 						<label className="mb-2 text-sm font-medium " htmlFor="tipo">
@@ -180,8 +230,8 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 					className="w-56
                     rounded-xl border-none p-2 text-center text-base font-medium text-white"
 					style={{ backgroundColor: '#EF0037' }}
-					type="submit"
-					onClick={handleNextButtonClick}
+					type="button"
+					onClick={handleSubmit}
 				>
 					Avançar
 				</button>
@@ -206,7 +256,30 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 					</tr>
 				</thead>
 				<tbody>
-					<tr className="h-14">
+					{salas && (
+						<>
+							{salas.map((sala, index) => {
+								return (
+									<tr
+										key={index}
+										className="h-14"
+										style={{
+											backgroundColor: !(index % 2 === 0) ? '#E4E4E4' : '#fff',
+										}}
+									>
+										<td scope="row" className="">
+											{sala.tipo}
+										</td>
+										<td className="">{sala.andar}</td>
+										<td className="">{sala.numero}</td>
+										<td className="">{sala.limitePessoas}</td>
+										<td className="">{sala.temaSala}</td>
+									</tr>
+								);
+							})}
+						</>
+					)}
+					{/* <tr className="h-14">
 						<td scope="row" className="">
 							Palestra
 						</td>
@@ -223,7 +296,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 						<td className="">20</td>
 						<td className="">74</td>
 						<td className="">Inteligência</td>
-					</tr>
+					</tr> */}
 				</tbody>
 			</table>
 		</div>

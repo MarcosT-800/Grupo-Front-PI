@@ -5,7 +5,7 @@ export type Sala = {
     numero: number;
     limitePessoas: number;
     temaSala: string;
-    eventId: string;
+    eventId?: string;
 }
 export interface ISalaRepository {
     create(Sala: Sala): Promise<Sala>;

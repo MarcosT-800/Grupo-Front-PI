@@ -40,9 +40,9 @@ export default function NavbarAuthenticated() {
 				/>
 				<div className="flex items-center gap-4">
 					<S.OptionMenu
-						onClick={() => handleOptionClick('/home')}
+						onClick={() => handleOptionClick('/')}
 						className="cursor-pointer text-base"
-						selected={currentOption === '/home'}
+						selected={currentOption === '/'}
 					>
 						Página Inicial
 					</S.OptionMenu>
