@@ -112,11 +112,7 @@ export default function CadastroComissao() {
 				setEventId(id);
 				const result = await axios.get(`http://localhost:5002/area-event/${id}`);
 				if (result.data.areas) {
-					// const aa : Area[] = result.data.areas;
-					// setAreas(aa.map(area => area.nome));
-					// setExistingAreaId(aa.map(area => area.id || ""))
 					setRealAreas(result.data.areas);
-					// setAreas(existingAreaId.map(area => area.nome));
 				}
 			} catch (error) {
 				console.log(error);
@@ -128,31 +124,33 @@ export default function CadastroComissao() {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		console.log(areas);
-		// e.preventDefault();
-		// const data: Comissao = {
-		// 	name,
-		// 	cpf,
-		// 	email,
-		// 	instituicao,
-		// 	turno,
-		// 	lattes,
-		// 	adm: checkboxes[3],
-		// 	organizador: checkboxes[0],
-		// 	chair: checkboxes[1],
-		// 	avaliador: checkboxes[2],
-		// 	senha: password,
-		// 	// certificado: '',
-		// 	areas: toUpdateAreaId
-		// };
+		console.log(realAreas);
+
+		const data: Comissao = {
+			name,
+			cpf,
+			email,
+			instituicao,
+			turno,
+			lattes,
+			adm: checkboxes[3],
+			organizador: checkboxes[0],
+			chair: checkboxes[1],
+			avaliador: checkboxes[2],
+			senha: password,
+			// certificado: '',
+			areas: realAreas.map(area => area.id ?? "")
+		};
 		
-		// try {
-		// 	const result = await axios.post('http://localhost:5002/comissao', data);
-		// 	if(result){
-		// 		console.log(result);
-		// 	}
-		// } catch (error) {
-		// 	console.log(error);
-		// }
+		try {
+			const result = await axios.post('http://localhost:5002/comissao', data);
+			if(result){
+				// habilitar card de 3seg indicando cadastro realizado
+				console.log(result);
+			}
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (

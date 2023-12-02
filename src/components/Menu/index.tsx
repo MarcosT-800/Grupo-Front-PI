@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation'
 import { useState } from 'react';
 
 import { AiOutlineFileSearch, AiOutlineStar } from 'react-icons/ai';
@@ -13,6 +14,8 @@ import { PiFiles } from 'react-icons/pi';
 import { TfiTimer } from 'react-icons/tfi';
 
 export default function Menu() {
+	const router = useRouter()
+	
 	return (
 		<div className="container mb-6 mt-52 flex justify-center">
 			<div className="w-1/2">
@@ -39,7 +42,8 @@ export default function Menu() {
 					<div className="flex flex-col gap-6">
 						<div
 							className="flex gap-4 rounded-xl p-5"
-							style={{ border: '1px solid #ef0037' }}
+							style={{ border: '1px solid #ef0037', cursor: 'pointer'}}
+							onClick={() => router.push('/evento/editar-evento')}
 						>
 							<AiOutlineStar className="h-8 w-8" style={{ color: '#ef0037' }} />
 							<div className="flex flex-col gap-0.5">

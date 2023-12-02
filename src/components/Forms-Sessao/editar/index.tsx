@@ -212,14 +212,7 @@ export default function Sessao({ handleNextClick }: CriarEventoProps) {
 			</form>
 
 			<div className="mt-8 flex items-center justify-center gap-6">
-				<button
-					className="w-56
-                    rounded-xl border-none p-2 text-center text-base font-medium text-white"
-					style={{ backgroundColor: '#8A8A8A' }}
-					type="submit"
-				>
-					Voltar
-				</button>
+
 				<button
 					className="w-56
                     rounded-xl border-none p-2 text-center text-base font-medium text-white"
@@ -227,7 +220,7 @@ export default function Sessao({ handleNextClick }: CriarEventoProps) {
 					type="submit"
 					onClick={handleNextButtonClick}
 				>
-					Finalizar
+					EDITAR
 				</button>
 			</div>
 

@@ -6,7 +6,7 @@ import NavbarAuthenticated from '@/components/Navbar/NavbarAuthenticated';
 import { useState } from 'react';
 
 export default async function Home() {
-	const [authenticated, setAuthenticated] = useState(false);
+	const [authenticated, setAuthenticated] = useState(true);
 	return (
 		<div className='h-screen flex flex-col justify-items-center '>
 			{authenticated 

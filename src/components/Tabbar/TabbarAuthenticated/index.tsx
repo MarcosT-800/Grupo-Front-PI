@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 
-import CadastrarUsuario from '@/components/Forms-CadastrarUsu';
-import CriarEvento from '@/components/Forms-CriarEvento/cadastrar';
+import CadastrarUsuario from '@/components/Forms-UsuComissaoLink';
+import CriarEvento from '@/components/Forms-Evento/cadastrar';
 import DataLocal from '@/components/Forms-DataLocal/cadastrar';
 import VisualizarSala from '@/components/Forms-Salas/cadastrar';
-import Sessao from '@/components/Forms-Sessao';
+import Sessao from '@/components/Forms-Sessao/cadastrar';
 import Menu from '@/components/Menu';
 
 import * as S from './styles';
@@ -22,8 +22,6 @@ export default function Tabbar({
 }: TabbarProps) {
 	const renderContent = () => {
 		switch (currentOption) {
-			case 'menu':
-				return <Menu />;
 			case 'criar-evento':
 				return (
 					<CriarEvento
@@ -32,7 +30,7 @@ export default function Tabbar({
 				);
 			case 'data-local':
 				return (
-					<DataLocal handleNextClick={() => handleOptionClick('arquivos')} />
+					<DataLocal handleNextClick={() => handleOptionClick('usuarios')} />
 				);
 			case 'arquivos':
 				return;
@@ -41,15 +39,15 @@ export default function Tabbar({
 			case 'usuarios':
 				return (
 					<CadastrarUsuario
-						handleNextClick={() => handleOptionClick('usuarios')}
+						handleNextClick={() => handleOptionClick('salas')}
 					/>
 				);
 			case 'salas':
 				return (
-					<VisualizarSala handleNextClick={() => handleOptionClick('salas')} />
+					<VisualizarSala handleNextClick={() => handleOptionClick('sessoes')} />
 				);
 			case 'sessoes':
-				return <Sessao handleNextClick={() => handleOptionClick('sessoes')} />;
+				return <Sessao />;
 			default:
 				return null;
 		}
@@ -58,16 +56,6 @@ export default function Tabbar({
 		<div>
 			<div className="fixed left-0 right-0 top-24 z-40 bg-white px-28 pb-5 pt-8 shadow">
 				<div className="flex flex-wrap items-center justify-center gap-5">
-					<div className="flex items-center gap-2">
-						<S.OptionMenu
-							onClick={() => handleOptionClick('menu')}
-							className="flex-shrink-0 cursor-pointer text-sm"
-							selected={currentOption === 'menu'}
-						>
-							Menu
-						</S.OptionMenu>
-						<S.IconMenu selected={currentOption === 'menu'} />
-					</div>
 					<div className="flex items-center gap-2">
 						<S.OptionMenu
 							onClick={() => handleOptionClick('criar-evento')}

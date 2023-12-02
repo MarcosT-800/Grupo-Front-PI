@@ -1,15 +1,10 @@
 'use client';
 
-import { alunoRequest } from '@/lib/repository';
 import { Aluno } from '@/lib/repository/aluno/index.repository';
 import axios from 'axios';
 import { useState } from 'react';
 
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-
-/*type CadastroAdminProps = {
-	handleNextClick: () => void;
-};*/
 
 export default function CadastroUser() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
@@ -55,8 +50,6 @@ export default function CadastroUser() {
 		};
 		console.log(data)
 		try {
-			// const response = await alunoRequest.create(data);
-			// const response = await axios.post(`${process.env.BASE_URL}/aluno`, data);
 			const response = await axios.post('http://localhost:5002/aluno', data);
 			console.log(response.data);
 		} catch (error) {
