@@ -3,13 +3,20 @@
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
+import { result } from 'lodash';
 import { FaTimes } from 'react-icons/fa';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import Select from 'react-select';
 
-import mockedOptionAreas from '@/mocks/OptionsAreas';
-import { Comissao } from '@/lib/repository/comission/index.repository';
 import { Area } from '@/lib/repository/area/index.repository';
-import { result } from 'lodash';
+import { Comissao } from '@/lib/repository/comission/index.repository';
+import mockedOptionAreas from '@/mocks/OptionsAreas';
+import mockedOptionTurnos from '@/mocks/OptionsTurnos';
+
+type LabelValue = {
+	label: string;
+	value: string | undefined;
+};
 
 export default function CadastroComissao() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
@@ -37,65 +44,22 @@ export default function CadastroComissao() {
 		});
 	};
 
-	const [areas, setAreas] = useState(['']);
-	const [ass, setAss] = useState(['']);
-	const [isBoxVisible, setIsBoxVisible] = useState(false);
-	// const [areas, setAreas] = useState<Area[]>([{
-		// nome: 'random'
-	// }]);
-	// const [ass, setAss] = useState<Area[]>([]);
-	// const [existingAreaId, setExistingAreaId] = useState<string[]>([])
-	// const [existingAreaId, setExistingAreaId] = useState<string[]>(["0","1","2","3"])
-	// const [toUpdateAreaId, setToUpdateAreaId] = useState<string[]>([])
-	// const [existingAreaId, setRealArea] = useState<Area[]>([])
-	const [realAreas, setRealAreas] = useState<Area[]>([
-		{
-		nome: "caixas",
-		id: "1234sd",
-		eventoId: "4312ewae"
-		},
-		{
-		nome: "plastico",
-		id: "1234sd",
-		eventoId: "4312ewae"
-		}
-	])
+	const [areas, setAreas] = useState<LabelValue[]>([
+		{ value: '1', label: 'Area 1' },
+		{ value: '2', label: 'Area 2' },
+	]);
+	const [realAreas, setRealAreas] = useState<(string | undefined)[]>([]);
 
-	const handleAddArea = (
-		setArea: React.Dispatch<React.SetStateAction<string[]>>
-	) => {
-		const lastArea =
-			setArea === setAreas ? areas[areas.length - 1] : ass[ass.length - 1];
-
-		const hasBlankArea =
-			setArea === setAreas ? areas.includes('') : ass.includes('');
-
-		if (lastArea.trim() !== '' || !hasBlankArea) {
-			setIsBoxVisible(true);
-			setArea((prevAreas) => [...prevAreas, '']);
-		}
-	};
-
-	const handleRemoveArea = (
-		index: number,
-		setArea: React.Dispatch<React.SetStateAction<string[]>>
-	) => {
-		setArea((prevAreas) => prevAreas.filter((_, i) => i !== index));
-		// setToUpdateAreaId((prevIds) => prevIds.filter((_, i) => i !== index))
-	};
-
-	const handleAreaChange = (
-		index: number,
-		value: string,
-		setArea: React.Dispatch<React.SetStateAction<string[]>>
-	) => {
-		const newAreas = [...(setArea === setAreas ? areas : ass)];
-		// const newRealAreas = [...(setArea === setAreas ? toUpdateAreaId : ass)];
-		newAreas[index] = value;
-		// newRealAreas[index] = existingAreaId[index];
-		// toUpdateAreaId[index] = existingAreaId[index];
-		// setToUpdateAreaId(newRealAreas);
-		setArea(newAreas);
+	const customStyles = {
+		control: (provided: any) => ({
+			...provided,
+			width: '100%',
+			height: 'auto',
+			borderRadius: '0.375rem',
+			border: '1',
+			background: 'white',
+			fontSize: '0.875rem',
+		}),
 	};
 
 	const handleTogglePasswordVisibility = () => {
@@ -110,9 +74,17 @@ export default function CadastroComissao() {
 			try {
 				const id = localStorage.getItem('eventId');
 				setEventId(id);
-				const result = await axios.get(`http://localhost:5002/area-event/${id}`);
+				const result = await axios.get(
+					`http://localhost:5002/area-event/${id}`
+				);
 				if (result.data.areas) {
-					setRealAreas(result.data.areas);
+					const areasComming: Area[] = result.data.areas;
+					const areasValueLabel = areasComming.map((area) => {
+						const labelvalue = { value: area.id, label: area.nome };
+						return labelvalue;
+					});
+					console.log(areasValueLabel);
+					setAreas(areasValueLabel);
 				}
 			} catch (error) {
 				console.log(error);
@@ -122,9 +94,7 @@ export default function CadastroComissao() {
 	}, []);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		console.log(areas);
-		console.log(realAreas);
+		e.preventDefault();
 
 		const data: Comissao = {
 			name,
@@ -139,12 +109,12 @@ export default function CadastroComissao() {
 			avaliador: checkboxes[2],
 			senha: password,
 			// certificado: '',
-			areas: realAreas.map(area => area.id ?? "")
+			areas: realAreas?.map((area) => area),
 		};
-		
+
 		try {
 			const result = await axios.post('http://localhost:5002/comissao', data);
-			if(result){
+			if (result) {
 				// habilitar card de 3seg indicando cadastro realizado
 				console.log(result);
 			}
@@ -284,77 +254,19 @@ export default function CadastroComissao() {
 								<label className="mb-2 text-sm font-medium" htmlFor="areas">
 									Áreas de Conhecimento
 								</label>
-								<div className="flex items-center">
-									<div className="w-full rounded-md border border-gray-300 bg-white px-4 py-2">
-										<select
-											className="w-full rounded-md border-0 bg-white text-sm outline-none"
-											name="areas"
-											value={areas[areas.length - 1]}
-											onChange={(e) =>
-												handleAreaChange(
-													areas.length - 1,
-													e.target.value,
-													setAreas
-												)
-											}
-											required
-										>
-											<option value="Areas" defaultValue="Area de conhecimento">
-												Áreas de Conhecimento
-											</option>
-											{/* {Object.values(mockedOptionAreas).map((option, index) => ( */}
-											{realAreas.map((option, index) => (
-												<option key={index} value={option.id}>
-													{option.nome}
-												</option>
-											))}
-										</select>
-									</div>
-									<div
-										className="ml-3 cursor-pointer rounded-full px-2"
-										onClick={() => handleAddArea(setAreas)}
-										style={{ backgroundColor: '#4B00E0' }}
-									>
-										<p className="text-xl font-bold text-white">+</p>
-									</div>
+								<div className="w-full">
+									<Select
+										isMulti
+										name="areas"
+										options={areas}
+										className="basic-multi-select border-gray-300"
+										classNamePrefix="select"
+										styles={customStyles}
+										onChange={(choice) =>
+											setRealAreas(choice.map((a) => a.value))
+										}
+									/>
 								</div>
-								{isBoxVisible && (
-									<div className="flex gap-2.5">
-										{areas
-											.filter((area) => area.trim() !== '') // Exclui as áreas em branco
-											.map((area, index) => (
-												<div
-													key={index}
-													className="mt-3 flex items-center rounded-full border border-gray-300 bg-white px-2 py-0.5"
-												>
-													<div className="w-full">
-														<input
-															className="w-full rounded-md border-0 bg-white text-sm outline-none"
-															type="text"
-															name="areas"
-															value={area}
-															onChange={(e) =>
-																handleAreaChange(
-																	index,
-																	e.target.value,
-																	setAreas
-																)
-															}
-															readOnly
-															required
-														/>
-													</div>
-													<div
-														className="ml-2 cursor-pointer rounded-full px-1"
-														style={{ backgroundColor: '#ef0037' }}
-														onClick={() => handleRemoveArea(index, setAreas)}
-													>
-														<FaTimes className="w-2 text-white" />
-													</div>
-												</div>
-											))}
-									</div>
-								)}
 							</div>
 							<div className="mb-5 flex flex-col">
 								<label
@@ -381,20 +293,14 @@ export default function CadastroComissao() {
 								<label className="mb-2 text-sm font-medium" htmlFor="turno">
 									Turno
 								</label>
-
-								<div className="rounded-md border border-gray-300 bg-white px-4 py-2">
-									<select
-										className="w-full rounded-md border-0 bg-white text-sm outline-none"
-										name="turno"
-										id="turno"
-										value={turno}
-										onChange={(e) => setTurno(e.target.value)}
-										required
-									>
-										<option value="Matutino">Matutino</option>
-										<option value="Vespertino">Vespertino</option>
-										<option value="Noturno">Noturno</option>
-									</select>
+								<div className="w-full">
+									<Select
+										name="turnos"
+										options={mockedOptionTurnos}
+										className="basic-multi-select border-gray-300"
+										classNamePrefix="select"
+										styles={customStyles}
+									/>
 								</div>
 							</div>
 							<div className="mb-5 flex flex-col">
@@ -487,7 +393,7 @@ export default function CadastroComissao() {
 					<div className="flex items-center justify-center gap-5">
 						<button
 							className="mb-6 w-1/5 rounded-xl border-none p-2 text-center text-base font-medium text-white"
-							type="submit"
+							type="button"
 							style={{ backgroundColor: '#8A8A8A' }}
 						>
 							Voltar
