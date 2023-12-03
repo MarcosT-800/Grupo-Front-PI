@@ -14,7 +14,7 @@ export type Comissao = {
     organizador: boolean | null ;
     avaliador: boolean | null ;
     chair: boolean | null ;
-    areas?: string[];
+    areas?: (string | undefined)[];
 }
 export interface IComissaoRepository {
     create(comissao: Comissao): Promise<Comissao>;
