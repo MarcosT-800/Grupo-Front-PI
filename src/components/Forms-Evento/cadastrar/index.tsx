@@ -545,7 +545,7 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 							type="submit"
 							// onClick={handleNextButtonClick}
 						>
-							Criar
+							Avançar
 						</button>
 					</div>
 				</form>

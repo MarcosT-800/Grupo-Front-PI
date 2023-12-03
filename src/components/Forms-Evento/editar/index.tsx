@@ -9,6 +9,7 @@ import { FiUpload } from 'react-icons/fi';
 import { Area } from '@/lib/repository/area/index.repository';
 import { Comissao } from '@/lib/repository/comission/index.repository';
 import { Event } from '@/lib/repository/event/index.repository';
+import AlertCard from '@/components/AlertCard';
 
 export default function EditarEvento() {
 	const [nome, setNome] = useState('');
@@ -23,6 +24,8 @@ export default function EditarEvento() {
 	const [horarioInicio, setHorarioInicio] = useState('');
 	const [horarioFinal, setHorarioFinal] = useState('');
 	const [comissaoId, setComissaoId] = useState('');
+
+	const [showCard, setShowCard] = useState(false);
 
 	const checkboxEvento = ['Público', 'Privado'];
 	const [checkboxes, setCheckboxes] = useState(checkboxEvento.map(() => false));
@@ -165,7 +168,13 @@ export default function EditarEvento() {
 					`http://localhost:5002/event/${eventID}`,
 					data
 				);
-				console.log(result);
+				if(result.data.eventUpdated){
+					console.log(result);
+					setShowCard(true);
+					setTimeout(() => {
+						setShowCard(false);
+					}, 3000);
+				}
 			} catch (error) {
 				console.log(error);
 			}
@@ -181,6 +190,7 @@ export default function EditarEvento() {
 				>
 					Crie seu próprio evento!
 				</h1>
+				<AlertCard message='Evento atualizado com sucesso' show={showCard} />
 				<form className="mt-8 w-full bg-white" onSubmit={handleSubmit}>
 					<div className="flex justify-center gap-5">
 						<div className="w-full">

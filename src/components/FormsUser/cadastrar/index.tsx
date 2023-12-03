@@ -8,6 +8,7 @@ import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Select from 'react-select';
 
 import mockedOptionTurnos from '@/mocks/OptionsTurnos';
+import AlertCard from '@/components/AlertCard';
 
 export default function CadastroUser() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
@@ -21,13 +22,14 @@ export default function CadastroUser() {
 	const [email, setEmail] = useState('');
 	const [instituicao, setInst] = useState('');
 	const [curso, setCurso] = useState('');
-	const [periodo, setPeriodo] = useState('');
+	const [periodo, setPeriodo] = useState<string | undefined>('');
 
 	// funcao no evento:
 	const checkboxNames = ['Organizador', 'Chair', 'Avaliador', 'Admin'];
 	const [checkboxes, setCheckboxes] = useState(checkboxNames.map(() => false));
 	const [areas, setAreas] = useState(['']);
 	const [ass, setAss] = useState(['']);
+	const [showCard, setShowCard] = useState(false);
 
 	const customStyles = {
 		control: (provided: any) => ({
@@ -49,8 +51,8 @@ export default function CadastroUser() {
 	};
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		console.log("teste")
 		e.preventDefault();
+
 		const data: Aluno = {
 			name: name,
 			cpf: cpf,
@@ -68,6 +70,12 @@ export default function CadastroUser() {
 		try {
 			const response = await axios.post('http://localhost:5002/aluno', data);
 			console.log(response.data);
+			if(response.data.alunoCreated){
+				setShowCard(true);
+				setTimeout(() => {
+					setShowCard(false);
+				}, 3000);
+			}
 		} catch (error) {
 			console.log(error);
 		}
@@ -82,6 +90,8 @@ export default function CadastroUser() {
 				>
 					Cadastrar Usuário Aluno
 				</h1>
+				<AlertCard message='Aluno cadastrado com sucesso' show={showCard} />
+				
 				<p className="text-center text-sm text-black">Cadastro como usuário</p>
 				<form className="mt-8 w-full bg-white" onSubmit={handleSubmit}>
 					<div className="flex items-center justify-center gap-5">
@@ -221,6 +231,7 @@ export default function CadastroUser() {
 										className="basic-multi-select border-gray-300"
 										classNamePrefix="select"
 										styles={customStyles}
+										onChange={(choice) => setPeriodo(choice?.label)}
 									/>
 								</div>
 							</div>

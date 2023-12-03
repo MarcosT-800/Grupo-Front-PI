@@ -7,6 +7,7 @@ import { toNumber } from 'lodash';
 import moment from 'moment';
 
 import { Sala } from '@/lib/repository/sala/index.repository';
+import AlertCard from '@/components/AlertCard';
 
 type CriarEventoProps = {
 	handleNextClick: () => void;
@@ -18,24 +19,8 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 	const [andar, setAndar] = useState('');
 	const [numero, setNumero] = useState('');
 	const [tema, setTema] = useState('');
-	const [salas, setSalas] = useState<Sala[]>([
-		// {
-		// 	andar: toNumber('12'),
-		// 	numero: toNumber('14'),
-		// 	limitePessoas: toNumber('32'),
-		// 	temaSala: 'caixa',
-		// 	tipo: 'palestra',
-		// 	eventId: '5a57554e-fb55-4022-9873-0e67df9ed507',
-		// },
-		// {
-		// 	andar: toNumber('12'),
-		// 	numero: toNumber('16'),
-		// 	limitePessoas: toNumber('32'),
-		// 	temaSala: 'computador',
-		// 	tipo: 'palestra',
-		// 	eventId: '5a57554e-fb55-4022-9873-0e67df9ed507',
-		// },
-	]);
+	const [salas, setSalas] = useState<Sala[]>([]);
+	const [showCard, setShowCard] = useState(false);
 
 	const handleNextButtonClick = () => {
 		handleNextClick();
@@ -67,6 +52,11 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 					console.log(result);
 					if (result.data.sala) {
 						salasCreated.push(result.data.sala);
+						setShowCard(true);
+						setTimeout(() => {
+							setShowCard(false);
+							handleNextButtonClick();
+						}, 3000);
 						setAndar('');
 						setLimite('');
 						setNumero('');
@@ -74,7 +64,6 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 						setTipo('');
 					}
 				});
-				handleNextButtonClick();
 			} catch (error) {
 				console.log(error);
 			}
@@ -104,6 +93,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 				>
 					Salas
 				</h1>
+				<AlertCard message='Salas cadastradas com sucesso' show={showCard} />
 				<h2 className="text-center" style={{ color: '#000000' }}>
 					Salas que irão ser utilizadas no evento, insira uma de cada vez
 				</h2>

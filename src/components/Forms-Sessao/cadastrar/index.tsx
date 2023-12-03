@@ -122,7 +122,7 @@ export default function Sessao() {
 	const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		localStorage.removeItem('event');
-		localStorage.removeItem('eventId');
+		// localStorage.removeItem('eventId');
 		localStorage.removeItem('areas');
 		router.push('/evento/meus-eventos')
 	};

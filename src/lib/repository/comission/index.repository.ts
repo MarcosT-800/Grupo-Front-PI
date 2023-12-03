@@ -8,13 +8,13 @@ export type Comissao = {
     cpf: string;
     instituicao: string;
     certificado?: string | null;
-    turno: string;
+    turno: string | undefined;
     lattes: string;
     adm: boolean | null ;
     organizador: boolean | null ;
     avaliador: boolean | null ;
     chair: boolean | null ;
-    areas?: (string | undefined)[];
+    areaConhecimento?: (string | undefined)[];
 }
 export interface IComissaoRepository {
     create(comissao: Comissao): Promise<Comissao>;

@@ -6,7 +6,7 @@ export type Aluno = {
     cpf: string;
     instituicao: string;
     certificado?: string | null;
-    periodo: string;
+    periodo: string | undefined;
     curso: string;
     autor: boolean;
     apresentador: boolean | null;

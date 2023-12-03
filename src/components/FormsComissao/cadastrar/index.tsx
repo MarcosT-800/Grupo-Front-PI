@@ -8,6 +8,7 @@ import { FaTimes } from 'react-icons/fa';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import Select from 'react-select';
 
+import AlertCard from '@/components/AlertCard';
 import { Area } from '@/lib/repository/area/index.repository';
 import { Comissao } from '@/lib/repository/comission/index.repository';
 import mockedOptionAreas from '@/mocks/OptionsAreas';
@@ -25,16 +26,14 @@ export default function CadastroComissao() {
 	const [cpf, setCpf] = useState('');
 	const [email, setEmail] = useState('');
 	const [instituicao, setInst] = useState('');
-	const [turno, setTurno] = useState('');
+	const [turno, setTurno] = useState<string | undefined>('');
 	const [lattes, setLattes] = useState('');
 	const [confirmpasswordVisible, setConfirmpasswordVisible] = useState(false);
 	const [confirmpassword, setConfirmpassword] = useState('');
 	// funcao no evento:
 	const checkboxNames = ['Organizador', 'Chair', 'Avaliador', 'Admin'];
 	const [checkboxes, setCheckboxes] = useState(checkboxNames.map(() => false));
-
-	const [eventId, setEventId] = useState<string | null>('');
-	const [selectedAreas, setSelectedAreas] = useState(['']);
+	const [showCard, setShowCard] = useState(false);
 
 	const handleCheckboxChange = (index: any) => {
 		setCheckboxes((prev) => {
@@ -73,7 +72,7 @@ export default function CadastroComissao() {
 		async function getAreas() {
 			try {
 				const id = localStorage.getItem('eventId');
-				setEventId(id);
+
 				const result = await axios.get(
 					`http://localhost:5002/area-event/${id}`
 				);
@@ -95,28 +94,41 @@ export default function CadastroComissao() {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
-		const data: Comissao = {
-			name,
-			cpf,
-			email,
-			instituicao,
-			turno,
-			lattes,
-			adm: checkboxes[3],
-			organizador: checkboxes[0],
-			chair: checkboxes[1],
-			avaliador: checkboxes[2],
-			senha: password,
-			// certificado: '',
-			areas: realAreas?.map((area) => area),
-		};
-
+		
 		try {
+			const organizador = checkboxes.filter((item) => item === checkboxes[0] ? true : false)[0];
+			const adm = checkboxes.filter(item => item ==checkboxes[3] ? true : false)[0];
+			const chair = checkboxes.filter(item => item ==checkboxes[1] ? true : false)[0];
+			const avaliador = checkboxes.filter(item => item ==checkboxes[2] ? true : false)[0];
+	
+			const data: Comissao = {
+				name,
+				email,
+				senha: password,
+				cpf,
+				instituicao,
+				turno,
+				lattes,
+				// adm: checkboxes[3],
+				// organizador: checkboxes[0],
+				// chair: checkboxes[1],
+				// avaliador: checkboxes[2],
+				adm,
+				organizador,
+				chair,
+				avaliador,
+				// certificado: '',
+				areaConhecimento: realAreas?.map((area) => area),
+			};
 			const result = await axios.post('http://localhost:5002/comissao', data);
-			if (result) {
+			console.log(result)
+			if (result.data.comissaoCreated) {
 				// habilitar card de 3seg indicando cadastro realizado
 				console.log(result);
+				setShowCard(true);
+				setTimeout(() => {
+					setShowCard(false);
+				}, 3000);
 			}
 		} catch (error) {
 			console.log(error);
@@ -132,6 +144,7 @@ export default function CadastroComissao() {
 				>
 					Cadastrar Comissão
 				</h1>
+				<AlertCard message="Comissao cadastrada com sucesso" show={showCard} />
 				<p className="text-center text-sm text-black">
 					Cadastro como parte da comissão, possível mais de uma função
 				</p>
@@ -300,6 +313,7 @@ export default function CadastroComissao() {
 										className="basic-multi-select border-gray-300"
 										classNamePrefix="select"
 										styles={customStyles}
+										onChange={(choice) => setTurno(choice?.label)}
 									/>
 								</div>
 							</div>

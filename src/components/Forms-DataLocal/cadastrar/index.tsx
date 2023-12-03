@@ -7,6 +7,7 @@ import axios from 'axios';
 import { Area } from '@/lib/repository/area/index.repository';
 import { Event } from '@/lib/repository/event/index.repository';
 import moment from 'moment';
+import AlertCard from '@/components/AlertCard';
 
 type CriarEventoProps = {
 	handleNextClick: () => void;
@@ -24,6 +25,8 @@ export default function DataLocal({ handleNextClick }: CriarEventoProps) {
 
 	const [horarioInicio, setHorarioInicio] = useState('');
 	const [horarioFinal, setHorarioFinal] = useState('');
+
+	const [showCard, setShowCard] = useState(false);
 
 	const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
@@ -56,8 +59,13 @@ export default function DataLocal({ handleNextClick }: CriarEventoProps) {
 			data.periodo = checkboxPeriodo[0] || checkboxPeriodo[1] || checkboxPeriodo[2];
 			try {
 				const result = await axios.post('http://localhost:5002/event', data);
-				localStorage.setItem('eventId', result.data.userCreated.id);
-				console.log(result);
+				if(result.data.userCreated){
+					localStorage.setItem('eventId', result.data.userCreated.id);
+					setShowCard(true);
+					setTimeout(() => {
+						setShowCard(false);
+					}, 3000);
+				}
 			} catch (error) {
 				console.log(error);
 			}
@@ -74,6 +82,7 @@ export default function DataLocal({ handleNextClick }: CriarEventoProps) {
 				try {
 					const result = await axios.post('http://localhost:5002/area', areaObjt);
 					console.log(result);
+					handleNextClick();
 				} catch (error) {
 					console.log(error);
 				}
@@ -90,6 +99,7 @@ export default function DataLocal({ handleNextClick }: CriarEventoProps) {
 				>
 					Data e Local
 				</h1>
+				<AlertCard message='Evento cadastrado com sucesso' show={showCard}/>
 				<form className="mt-8 w-full bg-white" onSubmit={handleSubmit}>
 					<div className="flex justify-center gap-5">
 						<div className="w-full">
