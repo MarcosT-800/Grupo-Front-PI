@@ -68,7 +68,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 				console.log(error);
 			}
 		}
-		handleNextClick();
+		// handleNextClick();
 	};
 	const handleAddOnTable = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();

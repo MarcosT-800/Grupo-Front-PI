@@ -99,8 +99,8 @@ export default function CadastroComissao() {
 			const organizador = checkboxes.filter((item) => item === checkboxes[0] ? true : false)[0];
 			const adm = checkboxes.filter(item => item ==checkboxes[3] ? true : false)[0];
 			const chair = checkboxes.filter(item => item ==checkboxes[1] ? true : false)[0];
-			const avaliador = checkboxes.filter(item => item ==checkboxes[2] ? true : false)[0];
-	
+			const avaliador = checkboxes.filter(item => item ==checkboxes[2] ? true : false)[0]
+			console.log(realAreas?.map((area) => area))
 			const data: Comissao = {
 				name,
 				email,
@@ -129,6 +129,14 @@ export default function CadastroComissao() {
 				setTimeout(() => {
 					setShowCard(false);
 				}, 3000);
+				setName('')
+				setCpf('')
+				setEmail('')
+				setInst('')
+				setPassword('')
+				setConfirmpassword('')
+				setLattes('')
+				setCheckboxes(checkboxNames.map(() => false))
 			}
 		} catch (error) {
 			console.log(error);

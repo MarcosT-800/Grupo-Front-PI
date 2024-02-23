@@ -1,5 +1,6 @@
 'use client';
 
+import { Event } from "@/lib/repository/event/index.repository";
 import { Sala } from "@/lib/repository/sala/index.repository";
 import { Sessao } from "@/lib/repository/sessao/index.repository";
 import axios from "axios";
@@ -10,11 +11,25 @@ import { useState } from "react";
 
 export default function Sessao() {
 	const router = useRouter();
-	const [horaInicioSessao, setHorarioInicioSessao] = useState('');
-	const [horaFinalSessao, setHorarioFinalSessao] = useState('')
+	const [tempoSessao, setTempoSessao] = useState('');
+	// const [periodoEvent, setPeriodoEvenet] = useState(JSON.parse(localStorage.getItem('event') || '{}'))
 	const [sessoes, setSessoes] = useState<Sessao[]>([]);
+
 	const handleAddOnTable = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		const data: Event = JSON.parse(localStorage.getItem('event') || '{}');
+		if (data) {
+			data.dataFinal
+		}
+		// 			const dataInicio = response.data.event.dataInicio
+		// 			const horarioInicio = response.data.event.horarioInicio
+		// 			const dataFim = response.data.event.dataFinal
+		// 			const horarioFinal = response.data.event.horarioFim
+		// 			const momentDateHourIni = moment(dataInicio+ ' ' + horarioInicio);
+		// 			const momentDateHourFin = moment(dataFim+ ' ' + horarioFinal);
+		// 			const hours = momentDateHourIni.hour() - momentDateHourFin.hour();
+		// 			const salas : Sala[] = response.data.event.Sala
 		setSessoes((prev) => [
 			...prev,
 			{
@@ -35,42 +50,11 @@ export default function Sessao() {
 				tempoSessao: toNumber('32'),
 				comissaoId: 'julia martins'
 			},
-			{
-				horario: toNumber('09'),
-				tempoApresentacao: toNumber('14'),
-				tempoSessao: toNumber('32'),
-				comissaoId: 'aaa'
-			},
 		]);
 	};
 	const handleSubmmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		// const eventId = localStorage.getItem('eventId');
-		const eventId = '5a57554e-fb55-4022-9873-0e67df9ed507';
-		if(eventId){
-			try{
-				const response = await axios.get(`http://localhost:5002/event/${eventId}`);
-				if(response.data){
-					const dataInicio = response.data.event.dataInicio
-					const horarioInicio = response.data.event.horarioInicio
-					const dataFim = response.data.event.dataFinal
-					const horarioFinal = response.data.event.horarioFim
-					const momentDateHourIni = moment(dataInicio+ ' ' + horarioInicio);
-					const momentDateHourFin = moment(dataFim+ ' ' + horarioFinal);
-					const hours = momentDateHourIni.hour() - momentDateHourFin.hour();
-					const salas : Sala[] = response.data.event.Sala
-
-
-
-
-				}
-			}catch(error){
-				console.log(error);
-			}
-		}
 		
-		
-
 		// console.log(dataInicio)
 		// console.log(horarioInicio)
 		// console.log(dataFinal)
@@ -99,24 +83,26 @@ export default function Sessao() {
 		// 	'NEW DATE NOT FORMATED STRING: ', newDate.toString(),
 		// 	'NEW DATE FORMATET: ', newDate.format('DD-MM-YYYY HH:mm').toString()
 		// )
-
-		// if(eventId){
-		// 	const data: Sessao = {
-		// 		tempoSessao: toNumber('1'),
-		// 		tempoApresentacao: toNumber('2'),
-		// 		horario: toNumber('2'),
-		// 		salaId: 'as',
-		// 		comissaoId: 'idcom',
-		// 		// anfiteatro: false,
-		// 	};
-		// 	try {
-		// 		const response = await axios.post('http://localhost:5002/sala', data);
-		// 		console.log(response.data.sala.event.dataInicio);
-		// 		console.log(response.data.sala.event.dataFinal);
-		// 	} catch (error) {
-		// 		console.log(error);
-		// 	}
-		// }
+		const salaId = localStorage.getItem('salaId')
+		if(salaId){
+			sessoes.forEach(async sessao => {
+				const data: Sessao = {
+					tempoSessao: sessao.tempoSessao,
+					tempoApresentacao: sessao.tempoApresentacao,
+					horario: sessao.horario,
+					salaId: salaId,
+					comissaoId: sessao.comissaoId,
+				};
+				try {
+					const response = await axios.post('http://localhost:5002/sessao', data);
+					if(response.data.sessaoCreated){
+						console.log(response.data.sessaoCreated);
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			})
+		}
 	}
 
 	const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -180,8 +166,8 @@ export default function Sessao() {
 							type="time"
 							name="tempoSessao"
 							id="tempoSessao"
-							value={horaInicioSessao}
-							onChange={(e) => setHorarioInicioSessao(e.target.value)}
+							value={tempoSessao}
+							onChange={(e) => setTempoSessao(e.target.value)}
 							required
 						/>
 					</div>
@@ -273,7 +259,7 @@ export default function Sessao() {
 											<td scope="row" className="">
 												{index}
 											</td>
-											<td>{11+index}</td>
+											<td>{543+index}</td>
 											<td className="">{`${sala.horario} até ${sala.horario + 2}`}</td>
 											<td className="">{sala.comissaoId}</td>
 											<td className="">

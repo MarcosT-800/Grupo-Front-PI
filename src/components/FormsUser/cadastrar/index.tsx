@@ -9,6 +9,7 @@ import Select from 'react-select';
 
 import mockedOptionTurnos from '@/mocks/OptionsTurnos';
 import AlertCard from '@/components/AlertCard';
+import { set } from 'lodash';
 
 export default function CadastroUser() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
@@ -75,6 +76,12 @@ export default function CadastroUser() {
 				setTimeout(() => {
 					setShowCard(false);
 				}, 3000);
+				setName('')
+				setCpf('')
+				setEmail('')
+				setInst('')
+				setCurso('')
+				setPeriodo('')
 			}
 		} catch (error) {
 			console.log(error);

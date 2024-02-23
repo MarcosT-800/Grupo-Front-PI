@@ -136,7 +136,7 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 		localStorage.clear();
 		const event: Event = {
 			// comissaoId: adm,
-			comissaoId: 'ec2b4562-3234-4df9-ba5b-4b9a8226e39b',
+			comissaoId: 'd885dda4-86e7-457d-9f8b-8e7a975e42e9',
 			anais: checkboxesGerar[0],
 			certificados: checkboxesGerar[1],
 			assuntoPrincipal: assuntoPrincipal,

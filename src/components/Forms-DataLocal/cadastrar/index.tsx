@@ -50,13 +50,14 @@ export default function DataLocal({ handleNextClick }: CriarEventoProps) {
 		// cadastrando evento:
 		const data: Event = JSON.parse(localStorage.getItem('event') || '{}');
 		if (data) {
+			const periodo = checkboxes.findIndex(item => item===true);
 			data.local = `${local}, ${cep}, ${estado}, ${cidade}`;
 			data.cep = cep;
 			data.dataInicio = dataInicio;
 			data.dataFinal = dataFinal;
 			data.horarioInicio = horarioInicio;
 			data.horarioFim = horarioFinal;
-			data.periodo = checkboxPeriodo[0] || checkboxPeriodo[1] || checkboxPeriodo[2];
+			data.periodo = checkboxPeriodo[periodo];
 			try {
 				const result = await axios.post('http://localhost:5002/event', data);
 				if(result.data.userCreated){
@@ -64,6 +65,7 @@ export default function DataLocal({ handleNextClick }: CriarEventoProps) {
 					setShowCard(true);
 					setTimeout(() => {
 						setShowCard(false);
+						handleNextClick();
 					}, 3000);
 				}
 			} catch (error) {
@@ -82,7 +84,6 @@ export default function DataLocal({ handleNextClick }: CriarEventoProps) {
 				try {
 					const result = await axios.post('http://localhost:5002/area', areaObjt);
 					console.log(result);
-					handleNextClick();
 				} catch (error) {
 					console.log(error);
 				}

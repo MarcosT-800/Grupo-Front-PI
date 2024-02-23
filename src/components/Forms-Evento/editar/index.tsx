@@ -27,6 +27,12 @@ export default function EditarEvento() {
 
 	const [showCard, setShowCard] = useState(false);
 
+	const [publico, setPublico] = useState(false);
+	const [privado, setPrivado] = useState(false);
+	const [anais, setAnais] = useState(false);
+	const [certificados, setCertificados] = useState(false);
+
+
 	const checkboxEvento = ['Público', 'Privado'];
 	const [checkboxes, setCheckboxes] = useState(checkboxEvento.map(() => false));
 	const checkboxGerar = ['Anais', 'Certificados'];
@@ -114,9 +120,12 @@ export default function EditarEvento() {
 				setHorarioInicio('');
 				setHorarioFinal('');
 				setComissaoId('');
-				const id = '4cfc3ed4-bac2-4224-b5ef-6ac09a24890a';
+				const id = localStorage.getItem('eventId');
 				const result = await axios.get(`http://localhost:5002/event/${id}`);
-				if (result) {
+				const resultAreas = await axios.get(
+					`http://localhost:5002/area-event/${id}`
+				);
+				if (result.data.event && resultAreas.data.areas) {
 					const event: Event = result.data.event;
 					setNome(event.nomeEvento);
 					setEmail(event.emailEvento);
@@ -130,6 +139,37 @@ export default function EditarEvento() {
 					setHorarioInicio(event.horarioInicio ?? horarioInicio);
 					setHorarioFinal(event.horarioFim ?? horarioFinal);
 					setComissaoId(event.comissaoId);
+					if(event.privado){
+						handleCheckboxChangeEvento(1)
+
+					}else{
+						handleCheckboxChangeEvento(0)
+					}
+
+					if(event.anais){
+						handleCheckboxChangeGerar(0)
+					}
+					if(event.certificados){
+						handleCheckboxChangeGerar(1)
+					}
+					// const checkboxPeriodo = ['Matutino', 'Vespertino', 'Noturno'];
+					if(event.periodo === checkboxPeriodo[0]){
+						handleCheckboxChangePeriodo(0)
+					}
+					if(event.periodo === checkboxPeriodo[1]){
+						handleCheckboxChangePeriodo(1)
+					}
+					if(event.periodo === checkboxPeriodo[2]){
+						handleCheckboxChangePeriodo(2)
+					}
+					const areasComming: Area[] = resultAreas.data.areas;
+					// const areasValueLabel = areasComming.map((area) => {
+					// 	const labelvalue = { value: area.id, label: area.nome };
+					// 	return labelvalue;
+					// });
+					// console.log(areasValueLabel);
+					setAreas(areasComming.map((area) => area.nome));
+
 				}
 			} catch (error) {
 				console.log(error);
@@ -140,8 +180,8 @@ export default function EditarEvento() {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		// const eventID = localStorage.getItem('eventId');
-		const eventID = '4cfc3ed4-bac2-4224-b5ef-6ac09a24890a';
+		const eventID = localStorage.getItem('eventId');
+		// const eventID = '4cfc3ed4-bac2-4224-b5ef-6ac09a24890a';
 		if (eventID) {
 			const data: Event = {
 				comissaoId: comissaoId,
