@@ -10,6 +10,7 @@ import Sessao from '@/components/Forms-Sessao/cadastrar';
 import Menu from '@/components/Menu';
 
 import * as S from './styles';
+import CriarAtividade from '@/components/Form-Atividades';
 // import Arquivos from '@/components/Forms-Arquivos';
 
 type TabbarProps = {
@@ -39,7 +40,9 @@ export default function Tabbar({
 				// 	<Arquivos handleNextClick={() => handleOptionClick('atividades')} />
 				// );
 			case 'atividades':
-				return;
+				return(
+					<CriarAtividade handleNextClick={() => handleOptionClick('usuarios')} />
+				)
 			case 'usuarios':
 				return (
 					<CadastrarUsuario

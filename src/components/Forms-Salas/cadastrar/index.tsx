@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import axios from 'axios';
 import { toNumber } from 'lodash';
-import moment from 'moment';
+// import moment from 'moment';
 
 import { Sala } from '@/lib/repository/sala/index.repository';
 import AlertCard from '@/components/AlertCard';
@@ -70,6 +70,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 		}
 		// handleNextClick();
 	};
+	
 	const handleAddOnTable = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setSalas((prev) => [

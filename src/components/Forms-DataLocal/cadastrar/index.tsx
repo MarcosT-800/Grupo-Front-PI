@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import { Area } from '@/lib/repository/area/index.repository';
 import { Event } from '@/lib/repository/event/index.repository';
-import moment from 'moment';
+// import moment from 'moment';
 import AlertCard from '@/components/AlertCard';
 
 type CriarEventoProps = {
