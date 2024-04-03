@@ -6,8 +6,8 @@ import axios from 'axios';
 import { toNumber } from 'lodash';
 import moment from 'moment';
 
-import { Sala } from '@/lib/repository/sala/index.repository';
 import AlertCard from '@/components/AlertCard';
+import { Sala } from '@/lib/repository/sala/index.repository';
 
 type CriarEventoProps = {
 	handleNextClick: () => void;
@@ -31,7 +31,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 
 		const eventId = localStorage.getItem('eventId');
 		// const eventId = '5a57554e-fb55-4022-9873-0e67df9ed507';
-		console.log(salas)
+		console.log(salas);
 
 		if (eventId) {
 			let salasCreated: Sala[] = [];
@@ -79,7 +79,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 				numero: toNumber(numero),
 				limitePessoas: toNumber(limite),
 				temaSala: tema,
-				tipo
+				tipo,
 			},
 		]);
 	};
@@ -93,7 +93,7 @@ export default function VisualizarSala({ handleNextClick }: CriarEventoProps) {
 				>
 					Salas
 				</h1>
-				<AlertCard message='Salas cadastradas com sucesso' show={showCard} />
+				<AlertCard message="Salas cadastradas com sucesso" show={showCard} />
 				<h2 className="text-center" style={{ color: '#000000' }}>
 					Salas que irão ser utilizadas no evento, insira uma de cada vez
 				</h2>
