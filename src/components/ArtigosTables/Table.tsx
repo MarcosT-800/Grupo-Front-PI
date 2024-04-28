@@ -23,7 +23,7 @@ const Tabela = () => {
             <td className="border border-gray-400 p-2 pl-4 font-medium">{item.usuario}</td>
             <td className="border border-gray-400 p-2 pl-4 font-medium">{item.areas}</td>
             <td className="border p-2 px-6 flex">
-              <button className="border border-[#4C1FA6] text-[#4C1FA6] hover:bg-[#4C1FA6] hover:text-white font-medium text-white px-8 py-1 rounded rounded-[12px] mr-4 flex items-center gap-2"><span><img src='assets/Artigos/iconEditar.png' /></span>Editar</button>
+              <button className="border border-[#4C1FA6] text-[#4C1FA6] hover:bg-[#4C1FA6] hover:text-white font-medium px-8 py-1 rounded rounded-[12px] mr-4 flex items-center gap-2"><span><img src='assets/Artigos/iconEditar.png' /></span>Editar</button>
               <button className="border border-[#BF0000] text-[#BF0000] hover:bg-[#BF0000] hover:text-white font-medium px-8 py-1 rounded rounded-[12px] ml-2 flex items-center gap-2"><span><img src='assets/Artigos/iconDelete.png' /></span>Excluir</button>
             </td>
           </tr>

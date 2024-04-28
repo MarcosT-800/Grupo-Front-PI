@@ -7,6 +7,7 @@ import InputTextarea from '@/components/ArtigosInputs/InputTextarea';
 import InputText from '@/components/ArtigosInputs/InputText';
 import Table from '@/components/ArtigosTables/Table';
 import { useState } from 'react';
+import Pagination from '../ArtigosPagitation/pagination';
 
 export default function Support() {
 	const [precisaDeAvaliacao, setPrecisaDeAvaliacao] = useState(true);
@@ -15,8 +16,18 @@ export default function Support() {
 		setPrecisaDeAvaliacao(isChecked);
 	};
 
+	const [currentPage, setCurrentPage] = useState(1);
+    
+    const handlePageChange = (pageNumber: number) => {
+
+        setCurrentPage(pageNumber);
+    };
+
+	const totalPages = 3;
+
+
 	return (
-		<div className='relative h-[160vh] flex flex-col justify-center items-center sm:mt-16'>
+		<div className='relative h-[200vh] flex flex-col justify-center items-center sm:mt-16'>
 			<h1 className="text-3xl font-bold mb-4 text-[#EF0037]">Arquivos</h1>
 			<p className='text-[16px] text-font-dosis font-normal leading-[18.7px] mb-4 text-[#000000]'>Arquivos que serão submetidos pelos participantes</p>
 
@@ -74,16 +85,16 @@ export default function Support() {
 			</div>
 
 			<div className='mt-16'>
-				<button className='bg-[#0391C9] text-white p-2 px-6 rounded-full'>
+				<button className='bg-[#0391C9] text-white p-3 px-8 rounded-full'>
 					Cadastrar arquivo
 				</button>
 			</div>
 
 			<div className='mt-8 space-x-6'>
-				<button className='bg-[#8A8A8A] text-white p-2 px-16 rounded-full'>
+				<button className='bg-[#8A8A8A] text-white p-3 px-16 rounded-full'>
 					Voltar
 				</button>
-				<button className='bg-[#4B00E0] text-white p-2 px-14 rounded-full'>
+				<button className='bg-[#4B00E0] text-white p-3 px-14 rounded-full'>
 					Avançar
 				</button>
 			</div>
@@ -91,6 +102,12 @@ export default function Support() {
 			<div className='w-full mt-16 flex justify-center items-center'>
 				<Table />
 			</div>
+
+			<Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
 		</div>
 	);
 }
