@@ -1,4 +1,3 @@
-// InputSelect.jsx
 import React from 'react';
 
 interface InputSelectProps {
